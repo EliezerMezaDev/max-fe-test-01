@@ -6,8 +6,6 @@ const isGenerating = ref(false);
 import { PLANILLA_JURIDICA_MOCK_DATA } from "~/assets/data/planilla_result.mock";
 import { getPageStyles } from "~/lib/pdfHelper";
 
-
-
 const handleDownload = async () => {
   if (!process.client || !pdfContent.value) return;
 

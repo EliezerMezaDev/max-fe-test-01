@@ -431,7 +431,7 @@ defineExpose({ validate });
 
 <template>
   <form class="flex flex-col" @submit.prevent>
-    <!-- <div>
+    <div v-if="type === 'natural'">
       <FormTitle text="Información económica" />
       <FormBaseLayout>
         <FormBaseSelect
@@ -451,7 +451,7 @@ defineExpose({ validate });
           required
         />
       </FormBaseLayout>
-    </div> -->
+    </div>
 
     <div v-if="type === 'natural'" class="flex flex-col">
       <FormTitle text="Fuente de ingresos" />
