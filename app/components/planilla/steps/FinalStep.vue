@@ -1,46 +1,101 @@
 <script setup lang="ts">
-const wizard = usePlanillaWizard();
-const pdfContent = ref<HTMLElement | null>(null);
-const isGenerating = ref(false);
-
-import { PLANILLA_JURIDICA_MOCK_DATA } from "~/assets/data/planilla_result.mock";
+import { usePlanillaWizard } from "~/composables/usePlanillaWizard";
 import { getPageStyles } from "~/lib/pdfHelper";
 
-const handleDownload = async () => {
-  console.log("Asd");
+import { PLANILLA_NATURAL_MOCK_DATA } from "~/assets/data/planilla_result.mock";
 
-  if (!process.client || !pdfContent.value) return;
+const wizard = usePlanillaWizard();
+
+const mainDocumentContent = ref<HTMLElement | null>(null);
+const openingDocumentContent = ref<HTMLElement | null>(null);
+const originFundsDocumentContent = ref<HTMLElement | null>(null);
+const signatureRegistrationDocumentContent = ref<HTMLElement | null>(null);
+
+const isGenerating = ref(false);
+const currentStatus = ref("");
+
+const generateAndDownload = async (
+  element: HTMLElement,
+  filename: string,
+  styles: string,
+) => {
+  const html = element.innerHTML;
+
+  const response = await $fetch("/api/generate-pdf", {
+    method: "POST",
+    body: {
+      htmlContent: html,
+      cssContent: styles,
+    },
+    responseType: "blob",
+  });
+
+  const blob = new Blob([response as BlobPart], { type: "application/pdf" });
+  const link = document.createElement("a");
+  link.href = window.URL.createObjectURL(blob);
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  window.URL.revokeObjectURL(link.href);
+};
+
+const handleDownload = async () => {
+  if (
+    !process.client ||
+    !mainDocumentContent.value ||
+    !openingDocumentContent.value ||
+    !originFundsDocumentContent.value ||
+    !signatureRegistrationDocumentContent.value
+  )
+    return;
 
   isGenerating.value = true;
+  const type = wizard.state.value.type;
 
   try {
+    currentStatus.value = "Preparando estilos...";
     const styles = getPageStyles();
 
-    const element = pdfContent.value;
-
-    const html = element.innerHTML;
-
-    const response = await $fetch("/api/generate-pdf", {
-      method: "POST",
-      body: {
-        htmlContent: html,
-        cssContent: styles,
+    const documents = [
+      {
+        ref: mainDocumentContent.value,
+        name: `1_Ficha_Identificacion_${type}.pdf`,
+        label: "Ficha de Identificación",
       },
-      responseType: "blob",
-    });
+      {
+        ref: openingDocumentContent.value,
+        name: `2_Poder_Apertura_${type}.pdf`,
+        label: "Poder de Apertura",
+      },
+      {
+        ref: originFundsDocumentContent.value,
+        name: `3_Origen_Fondos_${type}.pdf`,
+        label: "Origen de Fondos",
+      },
+      {
+        ref: signatureRegistrationDocumentContent.value,
+        name: `4_Registro_Firmas_${type}.pdf`,
+        label: "Registro de Firmas",
+      },
+    ];
 
-    const blob = new Blob([response as BlobPart], { type: "application/pdf" });
-    const link = document.createElement("a");
-    link.href = window.URL.createObjectURL(blob);
-    link.download = `planilla_maximiza_${wizard.state.value.type}.pdf`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(link.href);
+    for (const doc of documents) {
+      currentStatus.value = `Generando: ${doc.label}...`;
+      await generateAndDownload(doc.ref, doc.name, styles);
+
+      await new Promise((resolve) => setTimeout(resolve, 500));
+    }
+
+    currentStatus.value = "¡Descargas completadas!";
   } catch (error) {
-    console.error("Error PDF:", error);
+    console.error("Error generando PDFs:", error);
+    alert(
+      "Hubo un error al generar uno de los documentos. Por favor revise su conexión.",
+    );
   } finally {
     isGenerating.value = false;
+    currentStatus.value = "";
   }
 };
 
@@ -56,30 +111,103 @@ defineExpose({
     </div>
 
     <h4 class="text-maximiza-negro1 font-black text-2xl md:text-3xl mb-4">
-      ¡El documento está listo!
+      ¡El expediente está listo!
     </h4>
 
-    <p class="text-maximiza-gris2 text-base md:text-lg mb-8 max-w-md mx-auto">
-      Revise la previsualización a continuación y descárguelo para firmarlo.
+    <p class="text-maximiza-gris2 text-md md:text-lg mb-8 max-w-lg mx-auto">
+      Revise la previsualización de los documentos a continuación.
     </p>
 
-    <button
-      @click="handleDownload"
-      :disabled="isGenerating"
-      class="button-primary mb-12 disabled:opacity-70 disabled:cursor-wait"
-    >
-      <font-awesome-icon
-        :icon="['fas', isGenerating ? 'spinner' : 'download']"
-        :spin="isGenerating"
-      />
-      {{ isGenerating ? "Generando PDF..." : "Descargar Planilla PDF" }}
-    </button>
+    <div class="flex flex-col items-center gap-2 mb-4">
+      <button
+        @click="handleDownload"
+        :disabled="isGenerating"
+        class="button-primary disabled:opacity-70 disabled:cursor-wait"
+      >
+        <font-awesome-icon
+          :icon="['fas', isGenerating ? 'spinner' : 'download']"
+          :spin="isGenerating"
+        />
+        {{ isGenerating ? "Procesando..." : "Descargar todos los documentos" }}
+      </button>
 
-    <div class="overflow-auto">
-      <div class="flex justify-center">
-        <div ref="pdfContent" class="bg-maximiza-blanco1 w-a4">
-          <PlanillaPdfResult :data="wizard.state.value.formData" />
-          <!-- <PlanillaPdfResult :data="PLANILLA_JURIDICA_MOCK_DATA" /> -->
+      <span
+        v-if="isGenerating"
+        class="text-xs font-bold text-maximiza-verde1 animate-pulse"
+      >
+        {{ currentStatus }}
+      </span>
+    </div>
+
+    <span class="mb-12 text-xs text-maximiza-gris1">
+      Nota: Si su navegador bloquea las descargas múltiples, por favor permita
+      las ventanas emergentes para este sitio.
+    </span>
+
+    <div class="w-full p-4 md:p-8 rounded overflow-auto">
+      <div class="flex flex-col gap-8 justify-center items-center">
+        <!-- Documento 1: Ficha Identificación -->
+        <div class="w-a4 relative">
+          <p
+            class="text-left text-xs font-bold text-maximiza-gris2 mb-1 uppercase"
+          >
+            1. Ficha de Identificación
+          </p>
+          <div
+            ref="mainDocumentContent"
+            class="bg-maximiza-blanco1 shadow-lg origin-top"
+          >
+            <PlanillaPdfMainDocument :data="wizard.state.value.formData" />
+          </div>
+        </div>
+
+        <!-- Documento 2: Poder Apertura -->
+        <div class="w-a4 relative">
+          <p
+            class="text-left text-xs font-bold text-maximiza-gris2 mb-1 uppercase"
+          >
+            2. Poder de Apertura
+          </p>
+          <div
+            ref="openingDocumentContent"
+            class="bg-maximiza-blanco1 shadow-lg origin-top"
+          >
+            <PlanillaPdfOpeningDocument :data="wizard.state.value.formData" />
+          </div>
+        </div>
+
+        <!-- Documento 3: Origen de Fondos -->
+        <div class="w-a4 relative">
+          <p
+            class="text-left text-xs font-bold text-maximiza-gris2 mb-1 uppercase"
+          >
+            3. Origen de Fondos
+          </p>
+          <div
+            ref="originFundsDocumentContent"
+            class="bg-maximiza-blanco1 shadow-lg origin-top"
+          >
+            <PlanillaPdfOriginFundsDocuments
+              :data="wizard.state.value.formData"
+            />
+          </div>
+        </div>
+
+        <!-- Documento 4: Registro de Firmas -->
+        <div class="w-a4 relative">
+          <p
+            class="text-left text-xs font-bold text-maximiza-gris2 mb-1 uppercase"
+          >
+            4. Registro de Firmas
+          </p>
+          <div
+            ref="signatureRegistrationDocumentContent"
+            class="bg-maximiza-blanco1 shadow-lg origin-top"
+          >
+            <PlanillaPdfSignatureRegistrationDocument
+              :data="wizard.state.value.formData"
+            />
+          </div>
         </div>
       </div>
     </div>

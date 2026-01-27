@@ -118,7 +118,7 @@ defineExpose({
         class="p-4 border-l border-b border-maximiza-gris5/90 bg-maximiza-gris5/10"
       >
         <h5 class="text-maximiza-verde1 font-black mb-4 text-lg">
-          Inversiones anuales (en Bolivares)
+          Inversiones anuales (en Dólares)
         </h5>
 
         <FormBaseRadio

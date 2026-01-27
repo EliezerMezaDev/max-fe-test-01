@@ -129,6 +129,8 @@ const pageTitle = computed(() =>
       <FormStepper
         :steps="currentStepsList"
         :current-step="wizard.state.value.currentStep"
+        :max-step-reached="wizard.state.value.maxStepReached"
+        @go-to-step="wizard.goToStep"
       />
     </section>
 

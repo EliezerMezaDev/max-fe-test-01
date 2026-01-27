@@ -9,14 +9,17 @@ export const truncateText = (text: string, length: number) => {
   return text.length > length ? text.substring(0, length) + "..." : text;
 };
 
-export const formatDate = (dateString: string) => {
+export const formatDate = (dateString: string | undefined | null): string => {
   if (!dateString) return "";
 
-  return new Date(dateString).toLocaleDateString("es-ES", {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-  });
+  const parts = dateString.split("-");
+
+  // Aseguramos que tenga el formato YYYY-MM-DD
+  if (parts.length !== 3) return dateString;
+
+  const [year, month, day] = parts;
+
+  return `${day}/${month}/${year}`;
 };
 
 export const minAgeDate = (age: number): string => {
@@ -41,19 +44,11 @@ export const formatAmount = (
 
   if (isNaN(number)) return "";
 
-  return new Intl.NumberFormat("es-VE", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-    useGrouping: true,
-  }).format(number) + ' Bs';
+  return (
+    new Intl.NumberFormat("es-VE", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+      useGrouping: true,
+    }).format(number) + " Bs"
+  );
 };
-
-// export const formatDate = (dateString: string | undefined | null): string => {
-//   if (!dateString) return "";
-
-//   const parts = dateString.split("-");
-
-//   if (parts.length !== 3) return dateString;
-
-//   return `${parts[2]}/${parts[1]}/${parts[0]}`;
-// };

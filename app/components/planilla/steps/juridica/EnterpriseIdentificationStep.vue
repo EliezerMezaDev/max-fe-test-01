@@ -304,13 +304,14 @@ defineExpose({ validate });
         />
       </FormBaseLayout>
 
-      <FormBaseLayout :style="'xl:grid-cols-2'">
+      <FormBaseLayout>
         <FormBaseSelect
           name="economicActivity"
           label="Actividad económica"
           v-model="economicActivity"
           :options="economicActivityOptions"
           :error-message="errors.economicActivity"
+          class="xl:col-span-2"
           required
         />
 

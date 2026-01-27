@@ -5,6 +5,7 @@ declare namespace MXMZ {
   interface WizardState {
     currentStep: number;
     totalSteps: number;
+    maxStepReached: number;
     isComplete: boolean;
     type: PlanillaType | null;
     formData: Partial<MXMZ.WizardPlanillaResult>;
@@ -43,6 +44,7 @@ declare namespace MXMZ {
   }
 
   interface PepProfile {
+    pepStatus: string;
     isPep: "SI" | "NO";
     hasPepRelationship: "SI" | "NO";
     isPepAssociate: "SI" | "NO";
@@ -57,18 +59,19 @@ declare namespace MXMZ {
     specificActivity: string;
     incomeSource: string[];
 
-    companyRif: string;
+    companyRif?: string;
     companyRemuneration: string;
     companyName: string;
     companyAddress: string;
     companyPhone: string;
-    companyRifType: string;
-    companyRifNumber: string;
+    companyRifType?: string;
+    companyRifNumber?: string;
     companyRol: string;
     companyBranch: string;
 
-    businessRifType: string;
-    businessRifNumber: string;
+    businessRif?: string;
+    businessRifType?: string;
+    businessRifNumber?: string;
     businessName: string;
     businessAddress: string;
     businessIncome: string;
@@ -122,6 +125,7 @@ declare namespace MXMZ {
     relatedWithPep: string;
     dni: string;
   };
+
   type Providers = { name: string; location: string };
   type Clients = { name: string; location: string };
   type RelatedCompanies = {
@@ -147,8 +151,7 @@ declare namespace MXMZ {
     currency: string;
     monthlyAmount: string;
     sendOrReceiveFundsFromAbroad: string;
-    purchase: string;
-    sale: string;
+
     originCountry: string;
     destinationCountry: string;
     virtualCurrencyUse: string;

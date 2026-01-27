@@ -1,8 +1,24 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   steps: string[];
   currentStep: number;
+  maxStepReached: number;
 }>();
+
+const emit = defineEmits<{
+  goToStep: [index: number];
+}>();
+
+const handleStepClick = (index: number) => {
+  // Only allow navigation to visited steps
+  if (index <= props.maxStepReached) {
+    emit("goToStep", index);
+  }
+};
+
+const isStepClickable = (index: number) => {
+  return index <= props.maxStepReached;
+};
 </script>
 
 <template>
@@ -40,11 +56,15 @@ defineProps<{
         class="flex flex-col items-center relative group"
       >
         <div
+          @click="handleStepClick(index)"
           class="w-10 h-10 rounded-full flex items-center justify-center border-4 transition-all duration-300 z-10"
           :class="[
             index <= currentStep
               ? 'bg-maximiza-verde1 border-maximiza-verde1 text-maximiza-blanco1'
               : 'bg-maximiza-gris5 border-maximiza-gris5 text-maximiza-blanco1',
+            isStepClickable(index)
+              ? 'cursor-pointer hover:scale-110'
+              : 'cursor-not-allowed',
           ]"
         >
           <span v-if="index < currentStep" class="font-bold">✓</span>
@@ -52,12 +72,14 @@ defineProps<{
         </div>
 
         <span
+          @click="handleStepClick(index)"
           class="absolute top-12 text-xs font-bold text-center w-32 transition-colors duration-300 uppercase"
-          :class="
+          :class="[
             index <= currentStep
               ? 'text-maximiza-verde1'
-              : 'text-maximiza-gris1'
-          "
+              : 'text-maximiza-gris1',
+            isStepClickable(index) ? 'cursor-pointer' : 'cursor-not-allowed',
+          ]"
         >
           {{ step }}
         </span>

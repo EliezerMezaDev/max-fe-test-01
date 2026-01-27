@@ -520,141 +520,113 @@ export const productNamesOptions: FormOption[] = [
 
 export const bankingInstituteOptions: FormOption[] = [
   {
-    value: "100_BANCO_BANCO_UNIVERSAL_CA",
-    label: "100% banco, banco universal, c.a.",
+    value: "0001-G200001100",
+    label: "Banco Central de Venezuela",
   },
   {
-    value: "BANCO_ACTIVO_CA_BANCO_UNIVERSAL",
-    label: "Banco activo c.a., banco universal",
+    value: "0102-G200099976",
+    label: "Banco de Venezuela, S.A. Banco Universal",
   },
   {
-    value: "BANCO_AGRICOLA_DE_VENEZUELA_CA",
-    label: "Banco agrícola de venezuela, c.a.",
+    value: "0104-J000029709",
+    label: "Venezolano de Crédito, S.A. Banco Universal",
   },
   {
-    value:
-      "BANCO_BICENTENARIO_DEL_PUEBLO_DE_LA_CLASE_OBRERA_MUJER_Y_COMUNAS_BANCO_UNIVERSAL_CA",
+    value: "0105-J000029610",
+    label: "Banco Mercantil, C.A. Banco Universal",
+  },
+  {
+    value: "0108-J000029679",
+    label: "Banco Provincial, S.A. Banco Universal",
+  },
+  {
+    value: "0114-J000029490",
+    label: "Banco del Caribe, C.A. Banco Universal",
+  },
+  {
+    value: "0115-J000029504",
+    label: "Banco Exterior, C.A. Banco Universal",
+  },
+  {
+    value: "0128-J095048551",
+    label: "Banco Caroni, C.A. Banco Universal",
+  },
+  {
+    value: "0134-J070133805",
+    label: "Banesco Banco Universal, C.A",
+  },
+  {
+    value: "0137-J090283846",
+    label: "Banco Sofitasa Banco Universal, C. A",
+  },
+  {
+    value: "0138-J002970553",
+    label: "Banco Plaza, C.A. Banco Universal",
+  },
+  {
+    value: "0146-J301442040",
+    label: "Banco de la Gente Emprendedora (BANGENTE), C.A",
+  },
+  {
+    value: "0151-J000723060",
+    label: "BFC Banco Fondo Común C.A. Banco Universal",
+  },
+  {
+    value: "0156-J085007768",
+    label: "100% Banco, Banco Universal C.A.",
+  },
+  {
+    value: "0157-J000797234",
+    label: "DelSur Banco Universal, C.A.",
+  },
+  {
+    value: "0163-G200051876",
+    label: "Banco del Tesoro, C.A. Banco Universal",
+  },
+  {
+    value: "0166-G200057955",
+    label: "Banco Agrícola de Venezuela C.A. Banco Universal",
+  },
+  {
+    value: "0168-J316374173",
+    label: "Bancrecer S.A. Banco Microfinanciero",
+  },
+  {
+    value: "0169-J315941023",
+    label: "Mi Banco, Banco Microfinanciero C.A.",
+  },
+  {
+    value: "0171-J080066227",
+    label: "Banco Activo C.A. Banco Universal",
+  },
+  {
+    value: "0172-J316287599",
+    label: "Bancamiga Banco Universal, C.A.",
+  },
+  {
+    value: "0173-J294640109",
+    label: "Banco Internacional de Desarrollo, C.A. Banco Universal",
+  },
+  {
+    value: "0174-J000423032",
+    label: "Banplus Banco Universal, C.A",
+  },
+  {
+    value: "0175-Bicentenario",
     label:
-      "Banco bicentenario, del pueblo, de la clase obrera, mujer y comunas, banco universal, c.a.",
+      "Banco Bicentenario del Pueblo de la Clase Obrera, Mujer y Comunas, Banco Universal.",
   },
   {
-    value: "BANCO_CARONI_CA_BANCO_UNIVERSAL",
-    label: "Banco caroní, c.a., banco universal",
+    value: "0177-G200106573",
+    label: "Banco de la Fuerza Armada Nacional Bolivariana Bco Universal",
   },
   {
-    value: "BANCO_DE_DESARROLLO_DE_LA_MUJER_CA_BANMUJER_CA_BANCO_COMERCIAL",
-    label:
-      "Banco de desarrollo de la mujer,c.a. (banmujer c.a.) banco comercial",
+    value: "0178-",
+    label: "N58 Banco Digital Banco MicroFinanciero S.A.",
   },
   {
-    value: "BANCO_DE_DESARROLLO_ECONOMICO_Y_SOCIAL_DE_VENEZUELA_BANDES",
-    label: "Banco de desarrollo económico y social de venezuela (bandes)",
-  },
-  {
-    value: "BANCO_DE_EXPORTACION_Y_COMERCIO_CA",
-    label: "Banco de exportacion y comercio, c.a.",
-  },
-  {
-    value:
-      "BANCO_DE_LA_FUERZA_ARMADA_NACIONAL_BOLIVARIANA_BANCO_UNIVERSAL_CA_BANFANB",
-    label:
-      "Banco de la fuerza armada nacional bolivariana, banco universal, c.a. (banfanb).",
-  },
-  {
-    value: "BANCO_DE_LA_GENTE_EMPRENDEDORA_BANGENTE_CA",
-    label: "Banco de la gente emprendedora (bangente) c.a.",
-  },
-  {
-    value: "BANCO_DE_VENEZUELA_SA_BANCO_UNIVERSAL",
-    label: "Banco de venezuela, s.a banco universal",
-  },
-  {
-    value: "BANCO_DEL_CARIBE_CA_BANCO_UNIVERSAL_BANCARIBE",
-    label: "Banco del caribe c.a., banco universal (bancaribe)",
-  },
-  {
-    value: "BANCO_DEL_PUEBLO_SOBERANO_CA_BANCO_DE_DESARROLLO",
-    label: "Banco del pueblo soberano, c.a., banco de desarrollo",
-  },
-  {
-    value: "BANCO_DEL_TESORO_CA_BANCO_UNIVERSAL",
-    label: "Banco del tesoro, c.a., banco universal",
-  },
-  {
-    value: "BANCO_EXTERIOR_CA_BANCO_UNIVERSAL",
-    label: "Banco exterior, c.a., banco universal",
-  },
-  {
-    value: "BANCO_GUAYANA_CA",
-    label: "Banco guayana, c.a",
-  },
-  {
-    value: "BANCO_INDUSTRIAL_DE_VENEZUELA_CA",
-    label: "Banco industrial de venezuela c.a.",
-  },
-  {
-    value: "BANCO_NACIONAL_DE_CREDITO_CA_BANCO_UNIVERSAL",
-    label: "Banco nacional de credito, c.a. banco universal",
-  },
-  {
-    value: "BANCO_OCCIDENTAL_DE_DESCUENTO_BANCO_UNIVERSAL_CA",
-    label: "Banco occidental de descuento, banco universal c.a.",
-  },
-  {
-    value: "BANCO_PLAZA_CA_BANCO_UNIVERSAL",
-    label: "Banco plaza, c.a., banco universal",
-  },
-  {
-    value: "BANCO_PROVINCIAL_SA_BANCO_UNIVERSAL",
-    label: "Banco provincial, s.a. banco universal",
-  },
-  {
-    value: "BANCO_PROVIVIENDA_CA_BANCO_UNIVERSAL_BANPRO",
-    label: "Banco provivienda, c.a., banco universal (banpro)",
-  },
-  {
-    value: "BANCO_SOFITASA_BANCO_UNIVERSAL_CA",
-    label: "Banco sofitasa banco universal, c.a",
-  },
-  {
-    value: "BANESCO_BANCO_UNIVERSAL_CA",
-    label: "Banesco banco universal, c.a",
-  },
-  {
-    value: "BANPLUS_BANCO_UNIVERSAL_CA",
-    label: "Banplus banco universal, c.a.",
-  },
-  {
-    value: "BANVALOR_BANCO_COMERCIAL_CA",
-    label: "Banvalor banco comercial c.a.",
-  },
-  {
-    value: "BFC_BANCO_FONDO_COMUN_CA_BANCO_UNIVERSAL",
-    label: "Bfc banco fondo comun, c.a. banco universal",
-  },
-  {
-    value: "CITIBANK_NA_SUCURSAL_VENEZUELA",
-    label: "Citibank, n.a. sucursal venezuela",
-  },
-  {
-    value: "CORP_BANCA_CA_BANCO_UNIVERSAL",
-    label: "Corp banca, c.a., banco universal",
-  },
-  {
-    value: "DEL_SUR_BANCO_UNIVERSAL_CA",
-    label: "Del sur banco universal, c.a.",
-  },
-  {
-    value: "INSTITUTO_MUNICIPAL_DE_CREDITO_POPULAR_IMCP",
-    label: "Instituto municipal de crédito popular (i.m.c.p)",
-  },
-  {
-    value: "MERCANTIL_CA_BANCO_UNIVERSAL",
-    label: "Mercantil, c.a., banco universal",
-  },
-  {
-    value: "VENEZOLANO_DE_CREDITO_SA_BANCO_UNIVERSAL",
-    label: "Venezolano de crédito, s.a, banco universal",
+    value: "0191-J309841327",
+    label: "Banco Nacional de Crédito, C.A. Banco Universal",
   },
 ];
 

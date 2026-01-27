@@ -23,13 +23,6 @@ const schema = yup.object({
   currency: yup.string().required("Requerido"),
 
   monthlyAmount: yup.string().required("Requerido"),
-  sendOrReceiveFundsFromAbroad: yup.string().required("Requerido"),
-
-  purchase: yup.string().required("Requerido"),
-  sale: yup.string().required("Requerido"),
-  originCountry: yup.string().required("Requerido"),
-  destinationCountry: yup.string().required("Requerido"),
-  virtualCurrencyUse: yup.string().required("Requerido"),
 
   perTransferPurchase: yup.string().required("Requerido"),
   perTransferSale: yup.string().required("Requerido"),
@@ -37,6 +30,24 @@ const schema = yup.object({
   motives: yup.string().required("Requerido"),
   fundsSource: yup.string().required("Requerido"),
   fundsDestination: yup.string().required("Requerido"),
+
+  sendOrReceiveFundsFromAbroad: yup.string().required("Seleccione una opción"),
+
+  originCountry: yup.string().when("sendOrReceiveFundsFromAbroad", {
+    is: (val: string) => val !== "NO",
+    then: (s) => s.required("Requerido"),
+    otherwise: (s) => s.optional(),
+  }),
+  destinationCountry: yup.string().when("sendOrReceiveFundsFromAbroad", {
+    is: (val: string) => val !== "NO",
+    then: (s) => s.required("Requerido"),
+    otherwise: (s) => s.optional(),
+  }),
+  virtualCurrencyUse: yup.string().when("sendOrReceiveFundsFromAbroad", {
+    is: (val: string) => val !== "NO",
+    then: (s) => s.required("Requerido"),
+    otherwise: (s) => s.optional(),
+  }),
 });
 
 const { handleSubmit, errors, defineField } = useForm({
@@ -53,31 +64,29 @@ const { handleSubmit, errors, defineField } = useForm({
     monthlyAmount:
       wizard.state.value.formData.productInformation?.monthlyAmount || "",
 
-    sendOrReceiveFundsFromAbroad:
-      wizard.state.value.formData.productInformation
-        ?.sendOrReceiveFundsFromAbroad || "",
-
-    purchase: wizard.state.value.formData.productInformation?.purchase || "",
-    sale: wizard.state.value.formData.productInformation?.sale || "",
-    originCountry:
-      wizard.state.value.formData.productInformation?.originCountry || "",
-    destinationCountry:
-      wizard.state.value.formData.productInformation?.destinationCountry || "",
-
     perTransferPurchase:
       wizard.state.value.formData.productInformation?.perTransferPurchase || "",
     perTransferSale:
       wizard.state.value.formData.productInformation?.perTransferSale || "",
 
-    virtualCurrencyUse:
-      wizard.state.value.formData.productInformation?.virtualCurrencyUse ||
-      "NINGUNA",
-
     motives: wizard.state.value.formData.productInformation?.motives || "",
+
     fundsSource:
       wizard.state.value.formData.productInformation?.fundsSource || "",
     fundsDestination:
       wizard.state.value.formData.productInformation?.fundsDestination || "",
+
+    sendOrReceiveFundsFromAbroad:
+      wizard.state.value.formData.productInformation
+        ?.sendOrReceiveFundsFromAbroad || "NO",
+
+    virtualCurrencyUse:
+      wizard.state.value.formData.productInformation?.virtualCurrencyUse ||
+      "NINGUNA",
+    originCountry:
+      wizard.state.value.formData.productInformation?.originCountry || "",
+    destinationCountry:
+      wizard.state.value.formData.productInformation?.destinationCountry || "",
   },
 });
 
@@ -91,8 +100,6 @@ const [sendOrReceiveFundsFromAbroad] = defineField(
   "sendOrReceiveFundsFromAbroad",
 );
 
-const [purchase] = defineField("purchase");
-const [sale] = defineField("sale");
 const [originCountry] = defineField("originCountry");
 const [destinationCountry] = defineField("destinationCountry");
 
@@ -165,41 +172,29 @@ defineExpose({
         />
 
         <FormBaseSelect
-          name="sendOrReceiveFundsFromAbroad"
-          label="Enviar o recibir fondos del exterior"
-          v-model="sendOrReceiveFundsFromAbroad"
-          :options="[
-            { value: 'SI', label: 'SI' },
-            { value: 'NO', label: 'NO' },
-          ]"
-          :error-message="errors.sendOrReceiveFundsFromAbroad"
-          required
-        />
-
-        <FormBaseInput
-          name="purchase"
-          label="Compra (en Bolivares)"
-          v-model="purchase"
-          type="number"
-          :error-message="errors.purchase"
-          required
-        />
-
-        <FormBaseInput
-          name="sale"
-          label="Venta (en Bolivares)"
-          type="number"
-          v-model="sale"
-          :error-message="errors.sale"
-          required
-        />
-
-        <FormBaseSelect
           name="motives"
           label="Motivos por los que solicita los servicios"
           v-model="motives"
           :options="motivesOptions"
           :error-message="errors.motives"
+          required
+        />
+
+        <FormBaseSelect
+          name="fundsSource"
+          label="Origen de los fondos"
+          v-model="fundsSource"
+          :options="fundsSourceOptions"
+          :error-message="errors.fundsSource"
+          required
+        />
+
+        <FormBaseSelect
+          name="fundsDestination"
+          label="Destino de los fondos"
+          v-model="fundsDestination"
+          :options="fundsDestinationOptions"
+          :error-message="errors.fundsDestination"
           required
         />
       </FormBaseLayout>
@@ -235,34 +230,59 @@ defineExpose({
     <div>
       <FormTitle text="Enviar o recibir fondos del exterior" class="mb-6" />
 
-      <FormBaseLayout :style="'grid-cols-1 md:grid-cols-3'">
-        <FormBaseSelect
-          name="virtualCurrencyUse"
-          label="Uso moneda virtual"
-          v-model="virtualCurrencyUse"
-          :options="virtualCurrencyOptions"
-          :error-message="errors.virtualCurrencyUse"
-          required
-        />
-
-        <FormBaseSelect
-          name="fundsSource"
-          label="Origen de los fondos"
-          v-model="fundsSource"
-          :options="fundsSourceOptions"
-          :error-message="errors.fundsSource"
-          required
-        />
-
-        <FormBaseSelect
-          name="fundsDestination"
-          label="Destino de los fondos"
-          v-model="fundsDestination"
-          :options="fundsDestinationOptions"
-          :error-message="errors.fundsDestination"
-          required
+      <FormBaseLayout>
+        <FormBaseRadio
+          name="sendOrReceiveFundsFromAbroad"
+          label="¿El inversionista tiene estipulado enviar o recibir fondos del exterior?"
+          v-model="sendOrReceiveFundsFromAbroad"
+          :options="[
+            { value: 'SI', label: 'SI' },
+            { value: 'NO', label: 'NO' },
+          ]"
+          :error-message="errors.sendOrReceiveFundsFromAbroad"
+          class="col-span-2"
         />
       </FormBaseLayout>
+
+      <transition
+        enter-active-class="transition duration-200 ease-out"
+        enter-from-class="transform scale-95 opacity-0"
+        enter-to-class="transform scale-100 opacity-100"
+        leave-active-class="transition duration-75 ease-in"
+        leave-from-class="transform scale-100 opacity-100"
+        leave-to-class="transform scale-95 opacity-0"
+      >
+        <div v-if="sendOrReceiveFundsFromAbroad === 'SI'">
+          <FormBaseLayout :style="'grid-cols-1 md:grid-cols-3'">
+            <FormBaseSelect
+              name="virtualCurrencyUse"
+              label="Uso moneda virtual"
+              v-model="virtualCurrencyUse"
+              :options="virtualCurrencyOptions"
+              :error-message="errors.virtualCurrencyUse"
+              required
+            />
+
+            <FormBaseSelect
+              name="originCountry"
+              label="País origen"
+              v-model="originCountry"
+              :options="countriesOptions"
+              :error-message="errors.originCountry"
+              required
+            />
+
+            <FormBaseSelect
+              name="destinationCountry"
+              label="País destino"
+              v-model="destinationCountry"
+              :options="countriesOptions"
+              :error-message="errors.destinationCountry"
+              required
+            />
+          </FormBaseLayout>
+        </div>
+      </transition>
     </div>
   </form>
 </template>

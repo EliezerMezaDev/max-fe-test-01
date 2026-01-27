@@ -2,6 +2,7 @@ export const usePlanillaWizard = () => {
   const state = useState<MXMZ.WizardState>("planilla-wizard-state", () => ({
     currentStep: 0,
     totalSteps: 0,
+    maxStepReached: 0,
     isComplete: false,
     type: null,
     formData: {},
@@ -11,6 +12,7 @@ export const usePlanillaWizard = () => {
     if (state.value.type !== type) {
       state.value.type = type;
       state.value.currentStep = 0;
+      state.value.maxStepReached = 0;
 
       state.value.formData = {
         institutionData: {
@@ -34,6 +36,10 @@ export const usePlanillaWizard = () => {
   const nextStep = () => {
     if (state.value.currentStep < state.value.totalSteps - 1) {
       state.value.currentStep++;
+      // Update maxStepReached when moving forward
+      if (state.value.currentStep > state.value.maxStepReached) {
+        state.value.maxStepReached = state.value.currentStep;
+      }
       window.scrollTo({ top: 300, behavior: "smooth" });
     } else {
       state.value.isComplete = true;
@@ -47,6 +53,14 @@ export const usePlanillaWizard = () => {
     }
   };
 
+  const goToStep = (index: number) => {
+    // Only allow navigation to visited steps or current step
+    if (index >= 0 && index <= state.value.maxStepReached && index < state.value.totalSteps) {
+      state.value.currentStep = index;
+      window.scrollTo({ top: 300, behavior: "smooth" });
+    }
+  };
+
   const updateFormData = (newData: Record<string, any>) => {
     state.value.formData = { ...state.value.formData, ...newData };
   };
@@ -56,6 +70,7 @@ export const usePlanillaWizard = () => {
     initWizard,
     nextStep,
     prevStep,
+    goToStep,
     updateFormData,
   };
 };

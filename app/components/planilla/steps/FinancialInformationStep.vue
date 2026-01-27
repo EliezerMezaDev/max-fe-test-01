@@ -421,13 +421,29 @@ const validate = handleSubmit((values) => {
   const payload = { ...values };
 
   if (type === "natural") {
-    if (values.companyRifType && values.companyRifNumber) {
+    // Always initialize these fields
+    payload.companyRif = "";
+    payload.businessRif = "";
+
+    // Only set companyRif if dependencia is selected and both fields are filled
+    if (
+      values.incomeSource?.includes("dependencia") &&
+      values.companyRifType &&
+      values.companyRifNumber
+    ) {
       payload.companyRif = `${values.companyRifType}${values.companyRifNumber}`;
     }
-    if (values.businessRifType && values.businessRifNumber) {
+
+    // Only set businessRif if propio is selected and both fields are filled
+    if (
+      values.incomeSource?.includes("propio") &&
+      values.businessRifType &&
+      values.businessRifNumber
+    ) {
       payload.businessRif = `${values.businessRifType}${values.businessRifNumber}`;
     }
 
+    // Remove the split fields from payload
     delete payload.companyRifType;
     delete payload.companyRifNumber;
     delete payload.businessRifType;
@@ -472,6 +488,7 @@ defineExpose({ validate });
           class="xl:col-span-2"
           required
         />
+
         <FormBaseInput
           name="specificActivity"
           label="Actividad específica"

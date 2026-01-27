@@ -383,7 +383,7 @@ defineExpose({
     </div>
 
     <div>
-      <FormTitle text="Representante legal" />
+      <FormTitle text="Representante legal" :style="'mt-12'" />
 
       <FormBaseLayout>
         <FormBaseRadio
