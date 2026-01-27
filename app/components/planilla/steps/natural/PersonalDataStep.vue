@@ -113,9 +113,9 @@ const { handleSubmit, errors, defineField } = useForm({
     maritalStatus:
       wizard.state.value.formData.personalData?.maritalStatus || "",
     profession: wizard.state.value.formData.personalData?.profession || "",
-    spouseName: wizard.state.value.formData.personalData?.spouseName || "",
+    spouseName: wizard.state.value.formData.personalData?.spouseName || "N/A",
     spouseIdentification:
-      wizard.state.value.formData.personalData?.spouseIdentification || "",
+      wizard.state.value.formData.personalData?.spouseIdentification || "N/A",
     address: wizard.state.value.formData.personalData?.address || "",
     phones: wizard.state.value.formData.personalData?.phones || "",
     email: wizard.state.value.formData.personalData?.email || "",
@@ -203,7 +203,7 @@ const validate = handleSubmit((values) => {
   delete payload.legalRepresentativeIdentificationNumber;
 
   wizard.updateFormData({ personalData: payload });
-  
+
   wizard.nextStep();
 });
 
@@ -441,6 +441,7 @@ defineExpose({
                     :error-message="
                       errors.legalRepresentativeIdentificationNumber
                     "
+                    :comment="'RIF_REQUIRED'"
                   />
                 </div>
               </div>

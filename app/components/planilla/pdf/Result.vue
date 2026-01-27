@@ -801,14 +801,7 @@ onMounted(() => {
               </div>
             </div>
           </div>
-          <div class="spreadsheet__item">
-            <div class="spreadsheet__form-item">
-              <div>N° transacciones por transferencias:</div>
-              <div class="content">
-                {{ product.numberOfTransactionsByTransfers }}
-              </div>
-            </div>
-          </div>
+         
         </div>
         <div class="grid grid-cols-2">
           <div class="spreadsheet__item">

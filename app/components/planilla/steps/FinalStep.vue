@@ -7,6 +7,8 @@ import { PLANILLA_JURIDICA_MOCK_DATA } from "~/assets/data/planilla_result.mock"
 import { getPageStyles } from "~/lib/pdfHelper";
 
 const handleDownload = async () => {
+  console.log("Asd");
+
   if (!process.client || !pdfContent.value) return;
 
   isGenerating.value = true;
@@ -50,7 +52,7 @@ defineExpose({
 <template>
   <div class="flex flex-col items-center justify-center text-center py-12">
     <div class="text-maximiza-verde1 text-6xl mb-6">
-      <font-awesome-icon :icon="['far', 'circle-check']" />
+      <font-awesome-icon :icon="['fas', 'circle-check']" />
     </div>
 
     <h4 class="text-maximiza-negro1 font-black text-2xl md:text-3xl mb-4">

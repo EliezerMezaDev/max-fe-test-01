@@ -11,14 +11,13 @@ import { usePlanillaWizard } from "~/composables/usePlanillaWizard";
 
 const wizard = usePlanillaWizard();
 
-const assetsOptions = [...annualInvestmentOptions];
-const totalAssetsOptions = [...annualInvestmentOptions];
+const investmentOptions = [...annualInvestmentOptions];
 
 const schema = yup.object({
   knowledge: yup.string().required("Seleccione una opción"),
   experience: yup.string().required("Seleccione una opción"),
   inversionLevel: yup.string().required("Seleccione una opción"),
-  annualInversion: yup.string().required("Seleccione una opción"),
+  annualInversion: yup.string().required("Requerido"),
   totalLiquidAssets: yup.string().required("Seleccione una opción"),
   totalAssets: yup.string().required("Seleccione una opción"),
 });
@@ -119,41 +118,49 @@ defineExpose({
         class="p-4 border-l border-b border-maximiza-gris5/90 bg-maximiza-gris5/10"
       >
         <h5 class="text-maximiza-verde1 font-black mb-4 text-lg">
-          Inversiones anuales
+          Inversiones anuales (en Bolivares)
         </h5>
+
         <FormBaseRadio
           name="annualInversion"
           v-model="annualInversion"
-          :options="annualInvestmentOptions"
+          :options="investmentOptions"
           :error-message="errors.annualInversion"
+          :style="'lg:grid-cols-2 xl:grid-cols-2'"
         />
       </div>
 
       <div
         class="p-4 border-l border-b border-maximiza-gris5/90 bg-maximiza-gris5/10"
       >
-        <h5 class="text-maximiza-verde1 font-black mb-4 text-lg">
-          Total activos líquidos (Dinero e inversiones)
+        <h5 class="text-maximiza-verde1 font-black mb-1 text-lg">
+          Total de activos líquidos (en Bolivares)
         </h5>
-        <FormBaseRadio
+
+        <FormBaseInput
           name="totalLiquidAssets"
+          type="number"
+          placeholder="Total de activos líquidos (Dinero e inversiones)"
           v-model="totalLiquidAssets"
-          :options="assetsOptions"
           :error-message="errors.totalLiquidAssets"
+          required
         />
       </div>
 
       <div
         class="p-4 border-l border-b border-maximiza-gris5/90 bg-maximiza-gris5/10"
       >
-        <h5 class="text-maximiza-verde1 font-black mb-4 text-lg">
-          Patrimonio total
+        <h5 class="text-maximiza-verde1 font-black mb-1 text-lg">
+          Patrimonio total (en Bolivares)
         </h5>
-        <FormBaseRadio
+
+        <FormBaseInput
           name="totalAssets"
+          type="number"
+          placeholder="Patrimonio total"
           v-model="totalAssets"
-          :options="totalAssetsOptions"
           :error-message="errors.totalAssets"
+          required
         />
       </div>
     </div>

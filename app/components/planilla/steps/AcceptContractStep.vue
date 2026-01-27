@@ -39,7 +39,7 @@ defineExpose({
     />
 
     <p
-      class="text-maximiza-gris1 text-sm md:text-base leading-relaxed text-justify mb-2"
+      class="text-maximiza-gris1 text-sm md:text-base leading-relaxed text-justify mb-6"
     >
       Con la firma del presente documento, el cliente expresamente conviene y
       acepta que las operaciones financieras y bursátiles celebradas entre

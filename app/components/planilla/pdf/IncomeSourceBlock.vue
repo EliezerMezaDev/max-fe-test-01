@@ -35,12 +35,37 @@ const { source } = defineProps<{
           <div class="content">{{ source.companyName }}</div>
         </td>
       </tr>
+
+      <tr class="spreadsheet__item">
+        <td class="spreadsheet__form-item">
+          Ramo de la empresa:
+          <div class="content">{{ source.companyBranch }}</div>
+        </td>
+      </tr>
+
+      <tr class="spreadsheet__item">
+        <td class="spreadsheet__form-item">
+          Cargo dentro de la empresa:
+          <div class="content">{{ source.companyRol }}</div>
+        </td>
+      </tr>
+
+      <tr class="spreadsheet__item">
+        <td class="spreadsheet__form-item">
+          Remuneración:
+          <div class="content">
+            {{ formatAmount(source.companyRemuneration) }}
+          </div>
+        </td>
+      </tr>
+
       <tr class="spreadsheet__item">
         <td class="spreadsheet__form-item">
           Dirección de la empresa:
           <div class="content">{{ source.companyAddress }}</div>
         </td>
       </tr>
+      
       <tr class="spreadsheet__item">
         <td class="spreadsheet__form-item">
           Teléfono:

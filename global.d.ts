@@ -56,12 +56,16 @@ declare namespace MXMZ {
     economicActivity: string;
     specificActivity: string;
     incomeSource: string[];
+
     companyRif: string;
+    companyRemuneration: string;
     companyName: string;
     companyAddress: string;
     companyPhone: string;
     companyRifType: string;
     companyRifNumber: string;
+    companyRol: string;
+    companyBranch: string;
 
     businessRifType: string;
     businessRifNumber: string;
@@ -142,13 +146,16 @@ declare namespace MXMZ {
     productAmount: string;
     currency: string;
     monthlyAmount: string;
-    numberOfTransactionsByTransfers: string;
     sendOrReceiveFundsFromAbroad: string;
     purchase: string;
     sale: string;
     originCountry: string;
     destinationCountry: string;
     virtualCurrencyUse: string;
+
+    perTransferPurchase: string;
+    perTransferSale: string;
+
     motives: string;
     fundsSource: string;
     fundsDestination: string;

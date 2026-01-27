@@ -34,7 +34,7 @@ export const usePlanillaWizard = () => {
   const nextStep = () => {
     if (state.value.currentStep < state.value.totalSteps - 1) {
       state.value.currentStep++;
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 300, behavior: "smooth" });
     } else {
       state.value.isComplete = true;
     }

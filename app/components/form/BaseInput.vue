@@ -9,11 +9,17 @@ interface Props {
   type?: "text" | "email" | "number" | "date" | "password" | "tel";
   placeholder?: string;
   errorMessage?: string;
-  min?: number;
-  max?: number;
+  min?: any;
+  max?: any;
+  comment?: string;
   disabled?: boolean;
   required?: boolean;
 }
+
+const COMMENT_TYPES: Record<string, string> = {
+  RIF_REQUIRED:
+    "Ingresar la información exacta como aparece en su Registro de Información fiscal",
+};
 
 const props = withDefaults(defineProps<Props>(), {
   type: "text",
@@ -24,7 +30,6 @@ const emit = defineEmits(["update:modelValue", "blur", "focus"]);
 
 const handleInput = (event: Event) => {
   const target = event.target as HTMLInputElement;
-
   emit("update:modelValue", target.value);
 };
 </script>
@@ -57,6 +62,13 @@ const handleInput = (event: Event) => {
           : 'border-maximiza-gris5 focus:border-maximiza-verde1 focus:ring-maximiza-verde1 placeholder:text-maximiza-negro1/30',
       ]"
     />
+
+    <p
+      v-if="comment"
+      class="text-maximiza-gris3 text-sm mt-2 bg-gray-50 px-2 border-l-2 border-maximiza-verde1"
+    >
+      {{ COMMENT_TYPES[comment] || comment }}
+    </p>
 
     <FormError :error="errorMessage" />
   </div>

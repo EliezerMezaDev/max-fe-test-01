@@ -20,6 +20,11 @@ export const docTypeOptions = [
   { value: "P", label: "P" },
 ];
 
+export const docTypeOptionsAlt = [
+  { value: "J", label: "J" },
+  { value: "G", label: "G" },
+];
+
 export const booleanOptions = [
   { value: "SI", label: "Sí" },
   { value: "NO", label: "No" },
@@ -85,32 +90,63 @@ export const investmentLevelOptions = [
   { value: "aggressive", label: "Agresivo" },
 ];
 
+export const monthlyIncomeOptions = [
+  { value: "lessThan500", label: "Menos de 500 Dólares" },
+  { value: "between501and1000", label: "Entre 501 y 1000 Dólares" },
+  { value: "between1001and2000", label: "Entre 1001 y 2000 Dólares" },
+  { value: "between2001and5000", label: "Entre 2001 y 5000 Dólares" },
+  { value: "plusThan5001", label: "A partir de 5.001 Dólares" },
+];
+
 export const annualInvestmentOptions = [
-  { value: "lessThan5_000", label: "Menos de 5.000" },
-  { value: "5_000and10_000", label: "Entre 5.001 y 10.000" },
-  { value: "10_000and50_000", label: "Entre 10.001 y 50.000" },
-  { value: "50_000and100_000", label: "Entre 50.001 y 100.000" },
-  { value: "100_000and300_000", label: "Entre 100.001 y 300.000" },
-  { value: "moreThan300_000", label: "Más de 300.000" },
+  { value: "lessThan1000", label: "Menos de 1.000 Dólares" },
+  { value: "plusThan1001", label: "A partir de 1.001 Dólares" },
 ];
 
 export const fundsDestinationOptions: FormOption[] = [
-  { value: "AHORRO", label: "Ahorro" },
-  { value: "COMPRA_DE_MONEDA_VIRTUAL", label: "Compra de moneda virtual" },
+  {
+    value: "AHORRO",
+    label: "Ahorro",
+  },
+  {
+    value: "CAPITAL_DE_TRABAJO",
+    label: "Capital de trabajo",
+  },
+  {
+    value: "COMPRA_DE_MONEDA_VIRTUAL",
+    label: "Compra de moneda virtual",
+  },
   {
     value: "EMISION_DE_CHEQUES_DE_GERENCIA",
     label: "Emisión de cheques de gerencia",
   },
-  { value: "CAPITAL_DE_TRABAJO", label: "Capital de trabajo" },
-  { value: "FIDEICOMISO", label: "Fideicomiso" },
-  { value: "NOMINA", label: "Nómina" },
-  { value: "PAGO_DE_SERVICIOS", label: "Pago de servicios" },
-  { value: "PERSONAL", label: "Personal" },
-  { value: "TRAMITE_DE_CREDITO", label: "Trámite de crédito" },
-  { value: "PAGO_DE_OBLIGACIONES", label: "Pago de obligaciones" },
+  {
+    value: "FIDEICOMISO",
+    label: "Fideicomiso",
+  },
+  {
+    value: "NOMINA",
+    label: "Nómina",
+  },
+  {
+    value: "PAGO_DE_OBLIGACIONES",
+    label: "Pago de obligaciones",
+  },
+  {
+    value: "PAGO_DE_SERVICIOS",
+    label: "Pago de servicios",
+  },
+  {
+    value: "PERSONAL",
+    label: "Personal",
+  },
   {
     value: "RECIBIR_O_ENVIAR_TRANSFERENCIAS_A_OTROS_BANCOS",
     label: "Recibir o enviar transferencias a otros bancos",
+  },
+  {
+    value: "TRAMITE_DE_CREDITO",
+    label: "Trámite de crédito",
   },
 ];
 
@@ -123,13 +159,22 @@ export const fundsSourceOptions: FormOption[] = [
     value: "ALQUILER_DE_HERRAMIENTAS_Y_EQUIPOS",
     label: "Alquiler de herramientas y equipos",
   },
-  { value: "ALQUILER_O_VENTA_DE_BIENES", label: "Alquiler o venta de bienes" },
+  {
+    value: "ALQUILER_O_VENTA_DE_BIENES",
+    label: "Alquiler o venta de bienes",
+  },
   {
     value: "COMERCIALIZACION_DE_POLIZAS_DE_SEGUROS",
     label: "Comercialización de pólizas de seguros",
   },
-  { value: "ECONOMIA_INFORMAL", label: "Economía informal" },
-  { value: "HERENCIA", label: "Herencia" },
+  {
+    value: "ECONOMIA_INFORMAL",
+    label: "Economía informal",
+  },
+  {
+    value: "HERENCIA",
+    label: "Herencia",
+  },
   {
     value: "INGRESOS_A_TRAVES_DE_TERCEROS",
     label: "Ingresos a través de terceros (ama de casa y estudiantes)",
@@ -142,14 +187,26 @@ export const fundsSourceOptions: FormOption[] = [
     value: "MANEJO_DE_TRANSPORTE_PUBLICO_Y_PRIVADO",
     label: "Manejo de transporte público y privado (taxi y busetas)",
   },
-  { value: "PAGO_DE_PRESTAMO", label: "Pago de préstamo" },
-  { value: "PENSION_Y_JUBILACION", label: "Pensión y jubilación" },
-  { value: "RETIRO_DE_OTROS_BANCOS", label: "Retiro de otros bancos" },
+  {
+    value: "PAGO_DE_PRESTAMO",
+    label: "Pago de préstamo",
+  },
+  {
+    value: "PENSION_Y_JUBILACION",
+    label: "Pensión y jubilación",
+  },
+  {
+    value: "RETIRO_DE_OTROS_BANCOS",
+    label: "Retiro de otros bancos",
+  },
   {
     value: "RIFAS_LOTERIAS_Y_OTROS_SORTEOS",
     label: "Rifas, loterías y otros sorteos",
   },
-  { value: "SALARIO_FIJO", label: "Salario fijo" },
+  {
+    value: "SALARIO_FIJO",
+    label: "Salario fijo",
+  },
   {
     value: "SERVICIOS_PROFESIONALES",
     label: "Servicios profesionales (asesores)",
@@ -158,19 +215,49 @@ export const fundsSourceOptions: FormOption[] = [
     value: "VENTA_DE_JOYAS_OBRAS_DE_ARTE_Y_ARTICULOS_PERSONALES",
     label: "Venta de joyas, obras de arte y/o artículos personales",
   },
-  { value: "VENTA_DE_MONEDA_VIRTUAL", label: "Venta de moneda virtual" },
+  {
+    value: "VENTA_DE_MONEDA_VIRTUAL",
+    label: "Venta de moneda virtual",
+  },
 ];
 
 export const virtualCurrencyOptions: FormOption[] = [
-  { value: "BITCOIN", label: "Bitcoin" },
-  { value: "DOGECOIN", label: "Dogecoin" },
-  { value: "ETHEREUM", label: "Ethereum" },
-  { value: "LITECOIN", label: "Litecoin" },
-  { value: "NINGUNA", label: "Ninguna" },
-  { value: "OTRA", label: "Otra" },
-  { value: "USDT", label: "Usdt" },
-  { value: "PETRO", label: "Petro" },
-  { value: "RIPPLE", label: "Ripple" },
+  {
+    value: "BITCOIN",
+    label: "Bitcoin",
+  },
+  {
+    value: "DOGECOIN",
+    label: "Dogecoin",
+  },
+  {
+    value: "ETHEREUM",
+    label: "Ethereum",
+  },
+  {
+    value: "LITECOIN",
+    label: "Litecoin",
+  },
+  {
+    value: "NINGUNA",
+    label: "Ninguna",
+  },
+  {
+    value: "OTRA",
+    label: "Otra",
+  },
+  {
+    value: "PETRO",
+    label: "Petro",
+  },
+  {
+    value: "RIPPLE",
+    label: "Ripple",
+  },
+  {
+    value: "USDT",
+    label: "Usdt",
+  },
 ];
 
 export const currencyOptions: FormOption[] = [
@@ -433,8 +520,77 @@ export const productNamesOptions: FormOption[] = [
 
 export const bankingInstituteOptions: FormOption[] = [
   {
+    value: "100_BANCO_BANCO_UNIVERSAL_CA",
+    label: "100% banco, banco universal, c.a.",
+  },
+  {
+    value: "BANCO_ACTIVO_CA_BANCO_UNIVERSAL",
+    label: "Banco activo c.a., banco universal",
+  },
+  {
     value: "BANCO_AGRICOLA_DE_VENEZUELA_CA",
     label: "Banco agrícola de venezuela, c.a.",
+  },
+  {
+    value:
+      "BANCO_BICENTENARIO_DEL_PUEBLO_DE_LA_CLASE_OBRERA_MUJER_Y_COMUNAS_BANCO_UNIVERSAL_CA",
+    label:
+      "Banco bicentenario, del pueblo, de la clase obrera, mujer y comunas, banco universal, c.a.",
+  },
+  {
+    value: "BANCO_CARONI_CA_BANCO_UNIVERSAL",
+    label: "Banco caroní, c.a., banco universal",
+  },
+  {
+    value: "BANCO_DE_DESARROLLO_DE_LA_MUJER_CA_BANMUJER_CA_BANCO_COMERCIAL",
+    label:
+      "Banco de desarrollo de la mujer,c.a. (banmujer c.a.) banco comercial",
+  },
+  {
+    value: "BANCO_DE_DESARROLLO_ECONOMICO_Y_SOCIAL_DE_VENEZUELA_BANDES",
+    label: "Banco de desarrollo económico y social de venezuela (bandes)",
+  },
+  {
+    value: "BANCO_DE_EXPORTACION_Y_COMERCIO_CA",
+    label: "Banco de exportacion y comercio, c.a.",
+  },
+  {
+    value:
+      "BANCO_DE_LA_FUERZA_ARMADA_NACIONAL_BOLIVARIANA_BANCO_UNIVERSAL_CA_BANFANB",
+    label:
+      "Banco de la fuerza armada nacional bolivariana, banco universal, c.a. (banfanb).",
+  },
+  {
+    value: "BANCO_DE_LA_GENTE_EMPRENDEDORA_BANGENTE_CA",
+    label: "Banco de la gente emprendedora (bangente) c.a.",
+  },
+  {
+    value: "BANCO_DE_VENEZUELA_SA_BANCO_UNIVERSAL",
+    label: "Banco de venezuela, s.a banco universal",
+  },
+  {
+    value: "BANCO_DEL_CARIBE_CA_BANCO_UNIVERSAL_BANCARIBE",
+    label: "Banco del caribe c.a., banco universal (bancaribe)",
+  },
+  {
+    value: "BANCO_DEL_PUEBLO_SOBERANO_CA_BANCO_DE_DESARROLLO",
+    label: "Banco del pueblo soberano, c.a., banco de desarrollo",
+  },
+  {
+    value: "BANCO_DEL_TESORO_CA_BANCO_UNIVERSAL",
+    label: "Banco del tesoro, c.a., banco universal",
+  },
+  {
+    value: "BANCO_EXTERIOR_CA_BANCO_UNIVERSAL",
+    label: "Banco exterior, c.a., banco universal",
+  },
+  {
+    value: "BANCO_GUAYANA_CA",
+    label: "Banco guayana, c.a",
+  },
+  {
+    value: "BANCO_INDUSTRIAL_DE_VENEZUELA_CA",
+    label: "Banco industrial de venezuela c.a.",
   },
   {
     value: "BANCO_NACIONAL_DE_CREDITO_CA_BANCO_UNIVERSAL",
@@ -449,122 +605,56 @@ export const bankingInstituteOptions: FormOption[] = [
     label: "Banco plaza, c.a., banco universal",
   },
   {
+    value: "BANCO_PROVINCIAL_SA_BANCO_UNIVERSAL",
+    label: "Banco provincial, s.a. banco universal",
+  },
+  {
     value: "BANCO_PROVIVIENDA_CA_BANCO_UNIVERSAL_BANPRO",
     label: "Banco provivienda, c.a., banco universal (banpro)",
-  },
-  {
-    value: "CITIBANK_NA_SUCURSAL_VENEZUELA",
-    label: "Citibank, n.a. sucursal venezuela",
-  },
-  {
-    value: "BANCO_DEL_CARIBE_CA_BANCO_UNIVERSAL_BANCARIBE",
-    label: "Banco del caribe c.a., banco universal (bancaribe)",
   },
   {
     value: "BANCO_SOFITASA_BANCO_UNIVERSAL_CA",
     label: "Banco sofitasa banco universal, c.a",
   },
   {
-    value: "DEL_SUR_BANCO_UNIVERSAL_CA",
-    label: "Del sur banco universal, c.a.",
-  },
-  {
-    value: "BANCO_DEL_TESORO_CA_BANCO_UNIVERSAL",
-    label: "Banco del tesoro, c.a., banco universal",
-  },
-  {
-    value: "BANCO_EXTERIOR_CA_BANCO_UNIVERSAL",
-    label: "Banco exterior, c.a., banco universal",
-  },
-  {
-    value:
-      "BANCO_DE_LA_FUERZA_ARMADA_NACIONAL_BOLIVARIANA_BANCO_UNIVERSAL_CA_BANFANB",
-    label:
-      "Banco de la fuerza armada nacional bolivariana, banco universal, c.a. (banfanb).",
-  },
-  {
-    value: "BFC_BANCO_FONDO_COMUN_CA_BANCO_UNIVERSAL",
-    label: "Bfc banco fondo comun, c.a. banco universal",
+    value: "BANESCO_BANCO_UNIVERSAL_CA",
+    label: "Banesco banco universal, c.a",
   },
   {
     value: "BANPLUS_BANCO_UNIVERSAL_CA",
     label: "Banplus banco universal, c.a.",
   },
   {
-    value: "100_BANCO_BANCO_UNIVERSAL_CA",
-    label: "100% banco, banco universal, c.a.",
+    value: "BANVALOR_BANCO_COMERCIAL_CA",
+    label: "Banvalor banco comercial c.a.",
   },
   {
-    value: "BANCO_PROVINCIAL_SA_BANCO_UNIVERSAL",
-    label: "Banco provincial, s.a. banco universal",
+    value: "BFC_BANCO_FONDO_COMUN_CA_BANCO_UNIVERSAL",
+    label: "Bfc banco fondo comun, c.a. banco universal",
+  },
+  {
+    value: "CITIBANK_NA_SUCURSAL_VENEZUELA",
+    label: "Citibank, n.a. sucursal venezuela",
   },
   {
     value: "CORP_BANCA_CA_BANCO_UNIVERSAL",
     label: "Corp banca, c.a., banco universal",
   },
   {
-    value:
-      "BANCO_BICENTENARIO_DEL_PUEBLO_DE_LA_CLASE_OBRERA_MUJER_Y_COMUNAS_BANCO_UNIVERSAL_CA",
-    label:
-      "Banco bicentenario, del pueblo, de la clase obrera, mujer y comunas, banco universal, c.a.",
-  },
-  {
-    value: "BANESCO_BANCO_UNIVERSAL_CA",
-    label: "Banesco banco universal, c.a",
-  },
-  {
-    value: "BANCO_CARONI_CA_BANCO_UNIVERSAL",
-    label: "Banco caroní, c.a., banco universal",
-  },
-  {
-    value: "MERCANTIL_CA_BANCO_UNIVERSAL",
-    label: "Mercantil, c.a., banco universal",
-  },
-  {
-    value: "BANCO_DE_VENEZUELA_SA_BANCO_UNIVERSAL",
-    label: "Banco de venezuela, s.a banco universal",
-  },
-  {
-    value: "BANCO_ACTIVO_CA_BANCO_UNIVERSAL",
-    label: "Banco activo c.a., banco universal",
-  },
-  {
-    value: "VENEZOLANO_DE_CREDITO_SA_BANCO_UNIVERSAL",
-    label: "Venezolano de crédito, s.a, banco universal",
+    value: "DEL_SUR_BANCO_UNIVERSAL_CA",
+    label: "Del sur banco universal, c.a.",
   },
   {
     value: "INSTITUTO_MUNICIPAL_DE_CREDITO_POPULAR_IMCP",
     label: "Instituto municipal de crédito popular (i.m.c.p)",
   },
   {
-    value: "BANVALOR_BANCO_COMERCIAL_CA",
-    label: "Banvalor banco comercial c.a.",
+    value: "MERCANTIL_CA_BANCO_UNIVERSAL",
+    label: "Mercantil, c.a., banco universal",
   },
   {
-    value: "BANCO_DE_EXPORTACION_Y_COMERCIO_CA",
-    label: "Banco de exportacion y comercio, c.a.",
-  },
-  { value: "BANCO_GUAYANA_CA", label: "Banco guayana, c.a" },
-  {
-    value: "BANCO_INDUSTRIAL_DE_VENEZUELA_CA",
-    label: "Banco industrial de venezuela c.a.",
-  },
-  {
-    value: "BANCO_DE_LA_GENTE_EMPRENDEDORA_BANGENTE_CA",
-    label: "Banco de la gente emprendedora (bangente) c.a.",
-  },
-  {
-    value: "BANCO_DEL_PUEBLO_SOBERANO_CA_BANCO_DE_DESARROLLO",
-    label: "Banco del pueblo soberano, c.a., banco de desarrollo",
-  },
-  {
-    value: "BANCO_DE_DESARROLLO_ECONOMICO_Y_SOCIAL_DE_VENEZUELA_BANDES",
-    label: "Banco de desarrollo económico y social de venezuela (bandes)",
-  },
-  {
-    value: "BANCO_DE_DESARROLLO_DE_LA_MUJER_CA_BANMUJER_CA_BANCO_COMERCIAL",
-    label:
-      "Banco de desarrollo de la mujer,c.a. (banmujer c.a.) banco comercial",
+    value: "VENEZOLANO_DE_CREDITO_SA_BANCO_UNIVERSAL",
+    label: "Venezolano de crédito, s.a, banco universal",
   },
 ];
 
@@ -859,99 +949,139 @@ export const occupationsOptions: FormOption[] = [
 ];
 
 export const economicActivityOptions: FormOption[] = [
-  { value: "ECAC001", label: "Agricultura, ganaderia" },
-  { value: "ECAC002", label: "Pesca y acuicultura" },
   {
-    value: "ECAC003",
-    label: "Extraccion de carbon y lignito, extraccion de turba",
+    value: "ECAC063",
+    label:
+      "Actividades de arquitectura e ingenieria; ensayos y analisis tecnicos",
   },
-  { value: "ECAC004", label: "Extraccion de petroleo crudo y gas natural" },
-  { value: "ECAC005", label: "Extraccion de minerales metaliferos" },
-  { value: "ECAC006", label: "Explotacion de otras minas y canteras" },
+  {
+    value: "ECAC079",
+    label: "Actividades de arte y entretenimiento y creatividad",
+  },
+  {
+    value: "ECAC083",
+    label: "Actividades de asociaciones u organizaciones",
+  },
   {
     value: "ECAC007",
     label: "Actividades de de apoyo a la explotacion de minas",
-  },
-  { value: "ECAC008", label: "Elaboracion de productos alimenticios" },
-  { value: "ECAC009", label: "Elaboracion de bebidas" },
-  { value: "ECAC010", label: "Elaboracion de productos de tabaco" },
-  { value: "ECAC011", label: "Fabricacion de productos textiles" },
-  { value: "ECAC012", label: "Fabricacion de prendas de vestir" },
-  { value: "ECAC013", label: "Fabricacion de cueros y productos conexos" },
-  {
-    value: "ECAC014",
-    label:
-      "Produccion de madera y fabricacion de productos de madera y corcho, excepto muebles fabricacion de articulos de paja y de materiales trenzables",
-  },
-  {
-    value: "ECAC015",
-    label: "Fabricacion de papel y de los productos de papel",
   },
   {
     value: "ECAC016",
     label: "Actividades de impresion y reproduccion de grabaciones",
   },
   {
-    value: "ECAC017",
-    label: "Fabricacion de coque y de productos de la refinacion del petroleo",
+    value: "ECAC071",
+    label: "Actividades de investigacion y seguridad",
   },
-  { value: "ECAC018", label: "Fabricacion de sustancias y productos quimicos" },
   {
-    value: "ECAC019",
+    value: "ECAC081",
+    label: "Actividades de juego y apuestas",
+  },
+  {
+    value: "ECAC055",
     label:
-      "Fabricacion de productos farmaceuticos, sustancias quimicas medicinales y de productos botanicos",
+      "Actividades de la tecnologia de informacion y del servicio informativo",
   },
-  { value: "ECAC020", label: "Fabricacion de productos de caucho y plastico" },
   {
-    value: "ECAC021",
-    label: "Fabricacion de otros productos minerales no metalicos",
-  },
-  { value: "ECAC022", label: "Fabricacion de metales comunes" },
-  {
-    value: "ECAC023",
+    value: "ECAC070",
     label:
-      "Fabricacion de productos derivados del metal, excepto maquinaria y equipo",
+      "Actividades de las agencias de viajes, operadores turisticos y otros servicios de reserva",
   },
   {
-    value: "ECAC024",
-    label: "Fabricacion de los productos informaticos, electronicos y opticos",
-  },
-  { value: "ECAC025", label: "Fabricacion de equipo electrico" },
-  { value: "ECAC026", label: "Fabricacion de la maquinaria y equipo n c p" },
-  {
-    value: "ECAC027",
-    label: "Fabricacion de vehiculos automotores, remolques y semirremolques",
-  },
-  {
-    value: "ECAC028",
-    label: "Fabricacion de otros tipos de equipo de transporte",
-  },
-  { value: "ECAC029", label: "Fabricacion de muebles" },
-  { value: "ECAC030", label: "Otras industrias manufactureras" },
-  {
-    value: "ECAC031",
-    label: "Reparacion e instalacion de la maquinaria y equipo",
-  },
-  {
-    value: "ECAC032",
-    label: "Suministro de electricidad, gas, vapor y aire acondicionado",
-  },
-  { value: "ECAC033", label: "Captacion, tratamiento y suministro de agua" },
-  { value: "ECAC034", label: "Alcantarillado" },
-  {
-    value: "ECAC035",
+    value: "ECAC086",
     label:
-      "Recoleccion, tratamiento y eliminacion de desechos, recuperacion de materiales",
+      "Actividades de los hogares en calidad de empleadores de personal domestico",
+  },
+  {
+    value: "ECAC062",
+    label:
+      "Actividades de oficinas centrales (sociedades de carteras), actividades de administracion de empresas y de consultoria sobre administracion de empresas",
+  },
+  {
+    value: "ECAC088",
+    label: "Actividades de organizaciones y organos extraterritoriales",
+  },
+  {
+    value: "ECAC052",
+    label:
+      "Actividades de produccion de peliculas, de video de programas de television, grabacion y publicacion de musica y sonido",
+  },
+  {
+    value: "ECAC051",
+    label: "Actividades de publicacion",
   },
   {
     value: "ECAC036",
     label:
       "Actividades de saneamiento y otros servicios de gestion de desechos",
   },
-  { value: "ECAC037", label: "Construccion de edificios" },
-  { value: "ECAC038", label: "Ingenieria civil" },
-  { value: "ECAC039", label: "Otros" },
-  { value: "ECAC040", label: "Actividades especializadas de la construccion" },
+  {
+    value: "ECAC068",
+    label: "Actividades del alquiler y arrendamiento",
+  },
+  {
+    value: "ECAC056",
+    label: "Actividades del servicio informativo",
+  },
+  {
+    value: "ECAC082",
+    label: "Actividades deportivas, de diversion y esparcimiento",
+  },
+  {
+    value: "ECAC069",
+    label: "Actividades en el campo del empleo",
+  },
+  {
+    value: "ECAC040",
+    label: "Actividades especializadas de la construccion",
+  },
+  {
+    value: "ECAC087",
+    label:
+      "Actividades indiferenciadas de produccion de bienes y servicios de los hogares privados para uso propio",
+  },
+  {
+    value: "ECAC060",
+    label: "Actividades inmobiliarias",
+  },
+  {
+    value: "ECAC061",
+    label: "Actividades juridicas y de contabilidad",
+  },
+  {
+    value: "ECAC076",
+    label: "Actividades relacionadas con la salud humana",
+  },
+  {
+    value: "ECAC067",
+    label: "Actividades veterinarias",
+  },
+  {
+    value: "ECAC074",
+    label:
+      "Administracion publica y la defensa; planes de seguridad social de afiliacion obligatoria",
+  },
+  {
+    value: "ECAC001",
+    label: "Agricultura, ganaderia",
+  },
+  {
+    value: "ECAC034",
+    label: "Alcantarillado",
+  },
+  {
+    value: "ECAC049",
+    label: "Alojamiento",
+  },
+  {
+    value: "ECAC080",
+    label: "Bibliotecas, archivos, museos y otras actividades culturales",
+  },
+  {
+    value: "ECAC033",
+    label: "Captacion, tratamiento y suministro de agua",
+  },
   {
     value: "ECAC041",
     label:
@@ -968,115 +1098,225 @@ export const economicActivityOptions: FormOption[] = [
       "Comercio al por menor, excepto el comercio de vehiculos automotores y motocicletas",
   },
   {
-    value: "ECAC044",
-    label: "Transporte por via terrestre; transporte por tuberias",
+    value: "ECAC037",
+    label: "Construccion de edificios",
   },
-  { value: "ECAC045", label: "Transporte por via acuatica" },
-  { value: "ECAC046", label: "Transporte por via aerea" },
+  {
+    value: "ECAC048",
+    label: "Correo y servicios de mensajeria",
+  },
   {
     value: "ECAC047",
     label: "Deposito y actividades de transporte complementarias",
   },
-  { value: "ECAC048", label: "Correo y servicios de mensajeria" },
-  { value: "ECAC049", label: "Alojamiento" },
-  { value: "ECAC050", label: "Servicio de alimento y bebida" },
-  { value: "ECAC051", label: "Actividades de publicacion" },
   {
-    value: "ECAC052",
-    label:
-      "Actividades de produccion de peliculas, de video de programas de television, grabacion y publicacion de musica y sonido",
+    value: "ECAC053",
+    label: "Difusion y programacion",
   },
-  { value: "ECAC053", label: "Difusion y programacion" },
-  { value: "ECAC054", label: "Telecomunicaciones" },
   {
-    value: "ECAC055",
-    label:
-      "Actividades de la tecnologia de informacion y del servicio informativo",
+    value: "ECAC009",
+    label: "Elaboracion de bebidas",
   },
-  { value: "ECAC056", label: "Actividades del servicio informativo" },
   {
-    value: "ECAC057",
-    label: "Servicios financieros, excepto seguros y fondos de pensiones",
+    value: "ECAC008",
+    label: "Elaboracion de productos alimenticios",
+  },
+  {
+    value: "ECAC010",
+    label: "Elaboracion de productos de tabaco",
+  },
+  {
+    value: "ECAC075",
+    label: "Enseñanza",
+  },
+  {
+    value: "ECAC006",
+    label: "Explotacion de otras minas y canteras",
+  },
+  {
+    value: "ECAC003",
+    label: "Extraccion de carbon y lignito, extraccion de turba",
+  },
+  {
+    value: "ECAC005",
+    label: "Extraccion de minerales metaliferos",
+  },
+  {
+    value: "ECAC004",
+    label: "Extraccion de petroleo crudo y gas natural",
+  },
+  {
+    value: "ECAC017",
+    label: "Fabricacion de coque y de productos de la refinacion del petroleo",
+  },
+  {
+    value: "ECAC013",
+    label: "Fabricacion de cueros y productos conexos",
+  },
+  {
+    value: "ECAC025",
+    label: "Fabricacion de equipo electrico",
+  },
+  {
+    value: "ECAC026",
+    label: "Fabricacion de la maquinaria y equipo n c p",
+  },
+  {
+    value: "ECAC024",
+    label: "Fabricacion de los productos informaticos, electronicos y opticos",
+  },
+  {
+    value: "ECAC022",
+    label: "Fabricacion de metales comunes",
+  },
+  {
+    value: "ECAC029",
+    label: "Fabricacion de muebles",
+  },
+  {
+    value: "ECAC021",
+    label: "Fabricacion de otros productos minerales no metalicos",
+  },
+  {
+    value: "ECAC028",
+    label: "Fabricacion de otros tipos de equipo de transporte",
+  },
+  {
+    value: "ECAC015",
+    label: "Fabricacion de papel y de los productos de papel",
+  },
+  {
+    value: "ECAC012",
+    label: "Fabricacion de prendas de vestir",
+  },
+  {
+    value: "ECAC020",
+    label: "Fabricacion de productos de caucho y plastico",
+  },
+  {
+    value: "ECAC023",
+    label:
+      "Fabricacion de productos derivados del metal, excepto maquinaria y equipo",
+  },
+  {
+    value: "ECAC019",
+    label:
+      "Fabricacion de productos farmaceuticos, sustancias quimicas medicinales y de productos botanicos",
+  },
+  {
+    value: "ECAC011",
+    label: "Fabricacion de productos textiles",
+  },
+  {
+    value: "ECAC018",
+    label: "Fabricacion de sustancias y productos quimicos",
+  },
+  {
+    value: "ECAC027",
+    label: "Fabricacion de vehiculos automotores, remolques y semirremolques",
+  },
+  {
+    value: "ECAC038",
+    label: "Ingenieria civil",
+  },
+  {
+    value: "ECAC077",
+    label: "Instituciones residenciales de cuidado",
+  },
+  {
+    value: "ECAC064",
+    label: "Investigacion y desarrollo cientificos",
+  },
+  {
+    value: "ECAC073",
+    label: "No disponible",
+  },
+  {
+    value: "ECAC085",
+    label: "Otras actividades de servicios",
+  },
+  {
+    value: "ECAC059",
+    label: "Otras actividades finacieras",
+  },
+  {
+    value: "ECAC066",
+    label: "Otras actividades profesionales, cientificas y tecnicas",
+  },
+  {
+    value: "ECAC030",
+    label: "Otras industrias manufactureras",
+  },
+  {
+    value: "ECAC039",
+    label: "Otros",
+  },
+  {
+    value: "ECAC002",
+    label: "Pesca y acuicultura",
+  },
+  {
+    value: "ECAC014",
+    label:
+      "Produccion de madera y fabricacion de productos de madera y corcho, excepto muebles fabricacion de articulos de paja y de materiales trenzables",
+  },
+  {
+    value: "ECAC065",
+    label: "Publicidad e investigacion de mercados",
+  },
+  {
+    value: "ECAC035",
+    label:
+      "Recoleccion, tratamiento y eliminacion de desechos, recuperacion de materiales",
+  },
+  {
+    value: "ECAC084",
+    label: "Reparacion de computadoras y enseres de uso personal y domestico",
+  },
+  {
+    value: "ECAC031",
+    label: "Reparacion e instalacion de la maquinaria y equipo",
   },
   {
     value: "ECAC058",
     label:
       "Seguros, reaseguros y fondos de pensiones, excepto los planes de seguridad social de afiliacion obligatoria",
   },
-  { value: "ECAC059", label: "Otras actividades finacieras" },
-  { value: "ECAC060", label: "Actividades inmobiliarias" },
-  { value: "ECAC061", label: "Actividades juridicas y de contabilidad" },
   {
-    value: "ECAC062",
-    label:
-      "Actividades de oficinas centrales (sociedades de carteras), actividades de administracion de empresas y de consultoria sobre administracion de empresas",
+    value: "ECAC050",
+    label: "Servicio de alimento y bebida",
   },
   {
-    value: "ECAC063",
-    label:
-      "Actividades de arquitectura e ingenieria; ensayos y analisis tecnicos",
+    value: "ECAC057",
+    label: "Servicios financieros, excepto seguros y fondos de pensiones",
   },
-  { value: "ECAC064", label: "Investigacion y desarrollo cientificos" },
-  { value: "ECAC065", label: "Publicidad e investigacion de mercados" },
-  {
-    value: "ECAC066",
-    label: "Otras actividades profesionales, cientificas y tecnicas",
-  },
-  { value: "ECAC067", label: "Actividades veterinarias" },
-  { value: "ECAC068", label: "Actividades del alquiler y arrendamiento" },
-  { value: "ECAC069", label: "Actividades en el campo del empleo" },
-  {
-    value: "ECAC070",
-    label:
-      "Actividades de las agencias de viajes, operadores turisticos y otros servicios de reserva",
-  },
-  { value: "ECAC071", label: "Actividades de investigacion y seguridad" },
   {
     value: "ECAC072",
     label: "Servicios para edificios y actividades de jardineria",
   },
-  { value: "ECAC073", label: "No disponible" },
   {
-    value: "ECAC074",
-    label:
-      "Administracion publica y la defensa; planes de seguridad social de afiliacion obligatoria",
-  },
-  { value: "ECAC075", label: "Enseñanza" },
-  { value: "ECAC076", label: "Actividades relacionadas con la salud humana" },
-  { value: "ECAC077", label: "Instituciones residenciales de cuidado" },
-  { value: "ECAC078", label: "Servicios sociales sin alojamiento" },
-  {
-    value: "ECAC079",
-    label: "Actividades de arte y entretenimiento y creatividad",
+    value: "ECAC078",
+    label: "Servicios sociales sin alojamiento",
   },
   {
-    value: "ECAC080",
-    label: "Bibliotecas, archivos, museos y otras actividades culturales",
-  },
-  { value: "ECAC081", label: "Actividades de juego y apuestas" },
-  {
-    value: "ECAC082",
-    label: "Actividades deportivas, de diversion y esparcimiento",
-  },
-  { value: "ECAC083", label: "Actividades de asociaciones u organizaciones" },
-  {
-    value: "ECAC084",
-    label: "Reparacion de computadoras y enseres de uso personal y domestico",
-  },
-  { value: "ECAC085", label: "Otras actividades de servicios" },
-  {
-    value: "ECAC086",
-    label:
-      "Actividades de los hogares en calidad de empleadores de personal domestico",
+    value: "ECAC032",
+    label: "Suministro de electricidad, gas, vapor y aire acondicionado",
   },
   {
-    value: "ECAC087",
-    label:
-      "Actividades indiferenciadas de produccion de bienes y servicios de los hogares privados para uso propio",
+    value: "ECAC054",
+    label: "Telecomunicaciones",
   },
   {
-    value: "ECAC088",
-    label: "Actividades de organizaciones y organos extraterritoriales",
+    value: "ECAC045",
+    label: "Transporte por via acuatica",
+  },
+  {
+    value: "ECAC046",
+    label: "Transporte por via aerea",
+  },
+  {
+    value: "ECAC044",
+    label: "Transporte por via terrestre; transporte por tuberias",
   },
 ];
 
@@ -1280,4 +1520,12 @@ export const countriesOptions: FormOption[] = [
   { value: "YIBUTI", label: "Yibuti" },
   { value: "ZAMBIA", label: "Zambia" },
   { value: "ZIMBABUE", label: "Zimbabue" },
+];
+
+export const perTransferPurchaseOptions: FormOption[] = [
+  { value: "ABC1", label: "ABC-1" },
+];
+
+export const perTransferSaleOptions: FormOption[] = [
+  { value: "ABC2", label: "ABC-2" },
 ];

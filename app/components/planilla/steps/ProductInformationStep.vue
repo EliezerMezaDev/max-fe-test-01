@@ -11,6 +11,8 @@ import {
   motivesOptions,
   fundsSourceOptions,
   fundsDestinationOptions,
+  perTransferPurchaseOptions,
+  perTransferSaleOptions,
 } from "~/assets/data/formSources";
 
 const wizard = usePlanillaWizard();
@@ -21,7 +23,6 @@ const schema = yup.object({
   currency: yup.string().required("Requerido"),
 
   monthlyAmount: yup.string().required("Requerido"),
-  numberOfTransactionsByTransfers: yup.string().required("Requerido"),
   sendOrReceiveFundsFromAbroad: yup.string().required("Requerido"),
 
   purchase: yup.string().required("Requerido"),
@@ -29,6 +30,9 @@ const schema = yup.object({
   originCountry: yup.string().required("Requerido"),
   destinationCountry: yup.string().required("Requerido"),
   virtualCurrencyUse: yup.string().required("Requerido"),
+
+  perTransferPurchase: yup.string().required("Requerido"),
+  perTransferSale: yup.string().required("Requerido"),
 
   motives: yup.string().required("Requerido"),
   fundsSource: yup.string().required("Requerido"),
@@ -48,9 +52,7 @@ const { handleSubmit, errors, defineField } = useForm({
 
     monthlyAmount:
       wizard.state.value.formData.productInformation?.monthlyAmount || "",
-    numberOfTransactionsByTransfers:
-      wizard.state.value.formData.productInformation
-        ?.numberOfTransactionsByTransfers || "",
+
     sendOrReceiveFundsFromAbroad:
       wizard.state.value.formData.productInformation
         ?.sendOrReceiveFundsFromAbroad || "",
@@ -61,6 +63,12 @@ const { handleSubmit, errors, defineField } = useForm({
       wizard.state.value.formData.productInformation?.originCountry || "",
     destinationCountry:
       wizard.state.value.formData.productInformation?.destinationCountry || "",
+
+    perTransferPurchase:
+      wizard.state.value.formData.productInformation?.perTransferPurchase || "",
+    perTransferSale:
+      wizard.state.value.formData.productInformation?.perTransferSale || "",
+
     virtualCurrencyUse:
       wizard.state.value.formData.productInformation?.virtualCurrencyUse ||
       "NINGUNA",
@@ -78,9 +86,7 @@ const [productAmount] = defineField("productAmount");
 const [currency] = defineField("currency");
 
 const [monthlyAmount] = defineField("monthlyAmount");
-const [numberOfTransactionsByTransfers] = defineField(
-  "numberOfTransactionsByTransfers",
-);
+
 const [sendOrReceiveFundsFromAbroad] = defineField(
   "sendOrReceiveFundsFromAbroad",
 );
@@ -89,7 +95,9 @@ const [purchase] = defineField("purchase");
 const [sale] = defineField("sale");
 const [originCountry] = defineField("originCountry");
 const [destinationCountry] = defineField("destinationCountry");
-const [virtualCurrencyUse] = defineField("virtualCurrencyUse");
+
+const [perTransferPurchase] = defineField("perTransferPurchase");
+const [perTransferSale] = defineField("perTransferSale");
 
 const [motives] = defineField("motives");
 const [fundsSource] = defineField("fundsSource");
@@ -122,14 +130,16 @@ defineExpose({
           :error-message="errors.productName"
           required
         />
+
         <FormBaseInput
           name="productAmount"
-          label="Monto del producto adquirido"
+          label="Monto del producto adquirido (en Bolivares)"
           type="number"
           v-model="productAmount"
           :error-message="errors.productAmount"
           required
         />
+
         <FormBaseSelect
           name="currency"
           label="Moneda"
@@ -147,20 +157,13 @@ defineExpose({
       <FormBaseLayout :style="'grid-cols-1 md:grid-cols-3'">
         <FormBaseInput
           name="monthlyAmount"
-          label="Monto promedio mensual"
+          label="Monto promedio mensual (en Bolivares)"
           type="number"
           v-model="monthlyAmount"
           :error-message="errors.monthlyAmount"
           required
         />
-        <FormBaseInput
-          name="numberOfTransactionsByTransfers"
-          label="N° transacciones por transferencias"
-          v-model="numberOfTransactionsByTransfers"
-          type="number"
-          :error-message="errors.numberOfTransactionsByTransfers"
-          required
-        />
+
         <FormBaseSelect
           name="sendOrReceiveFundsFromAbroad"
           label="Enviar o recibir fondos del exterior"
@@ -172,59 +175,25 @@ defineExpose({
           :error-message="errors.sendOrReceiveFundsFromAbroad"
           required
         />
-      </FormBaseLayout>
 
-      <FormBaseLayout :style="'grid-cols-1 md:grid-cols-3'">
         <FormBaseInput
           name="purchase"
-          label="Compra"
+          label="Compra (en Bolivares)"
           v-model="purchase"
           type="number"
           :error-message="errors.purchase"
           required
         />
+
         <FormBaseInput
           name="sale"
-          label="Venta"
+          label="Venta (en Bolivares)"
           type="number"
           v-model="sale"
           :error-message="errors.sale"
           required
         />
-        <FormBaseSelect
-          name="virtualCurrencyUse"
-          label="Uso moneda virtual"
-          v-model="virtualCurrencyUse"
-          :options="virtualCurrencyOptions"
-          :error-message="errors.virtualCurrencyUse"
-          required
-        />
-      </FormBaseLayout>
 
-      <FormBaseLayout :style="'grid-cols-1 md:grid-cols-2'">
-        <FormBaseSelect
-          name="originCountry"
-          label="País origen"
-          v-model="originCountry"
-          :options="countriesOptions"
-          :error-message="errors.originCountry"
-          required
-        />
-        <FormBaseSelect
-          name="destinationCountry"
-          label="País destino"
-          v-model="destinationCountry"
-          :options="countriesOptions"
-          :error-message="errors.destinationCountry"
-          required
-        />
-      </FormBaseLayout>
-    </div>
-
-    <div>
-      <FormTitle text="Motivos y origen" class="mb-6" />
-
-      <FormBaseLayout :style="'grid-cols-1 md:grid-cols-3'">
         <FormBaseSelect
           name="motives"
           label="Motivos por los que solicita los servicios"
@@ -233,6 +202,49 @@ defineExpose({
           :error-message="errors.motives"
           required
         />
+      </FormBaseLayout>
+    </div>
+
+    <div>
+      <FormTitle
+        text="Número de transacciones por transferencia"
+        class="mb-6"
+      />
+
+      <FormBaseLayout :style="'grid-cols-1 md:grid-cols-3'">
+        <FormBaseSelect
+          name="perTransferPurchase"
+          label="Compra"
+          v-model="perTransferPurchase"
+          :options="perTransferPurchaseOptions"
+          :error-message="errors.perTransferPurchase"
+          required
+        />
+
+        <FormBaseSelect
+          name="perTransferSale"
+          label="Venta"
+          v-model="perTransferSale"
+          :options="perTransferSaleOptions"
+          :error-message="errors.perTransferSale"
+          required
+        />
+      </FormBaseLayout>
+    </div>
+
+    <div>
+      <FormTitle text="Enviar o recibir fondos del exterior" class="mb-6" />
+
+      <FormBaseLayout :style="'grid-cols-1 md:grid-cols-3'">
+        <FormBaseSelect
+          name="virtualCurrencyUse"
+          label="Uso moneda virtual"
+          v-model="virtualCurrencyUse"
+          :options="virtualCurrencyOptions"
+          :error-message="errors.virtualCurrencyUse"
+          required
+        />
+
         <FormBaseSelect
           name="fundsSource"
           label="Origen de los fondos"
@@ -241,6 +253,7 @@ defineExpose({
           :error-message="errors.fundsSource"
           required
         />
+
         <FormBaseSelect
           name="fundsDestination"
           label="Destino de los fondos"
