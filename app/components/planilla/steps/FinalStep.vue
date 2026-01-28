@@ -19,6 +19,7 @@ const generateAndDownload = async (
   filename: string,
   styles: string,
 ) => {
+
   const html = element.innerHTML;
 
   const response = await $fetch("/api/generate-pdf", {

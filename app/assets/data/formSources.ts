@@ -91,16 +91,25 @@ export const investmentLevelOptions = [
 ];
 
 export const monthlyIncomeOptions = [
-  { value: "lessThan500", label: "Menos de 500 Dólares" },
-  { value: "between501and1000", label: "Entre 501 y 1000 Dólares" },
-  { value: "between1001and2000", label: "Entre 1001 y 2000 Dólares" },
-  { value: "between2001and5000", label: "Entre 2001 y 5000 Dólares" },
-  { value: "plusThan5001", label: "A partir de 5.001 Dólares" },
+  { value: "lessThan500", label: "Menos de 100.000,00 Bs" },
+  {
+    value: "between501and1000",
+    label: "Entre 100.001,00 y 365.000,00 Bs",
+  },
+  {
+    value: "between1001and2000",
+    label: "Entre 365.001,00 y 500.000,00 Bs",
+  },
+  {
+    value: "between2001and5000",
+    label: "Entre 500.000,00 y 999.999,00 Bs",
+  },
+  { value: "plusThan5001", label: "A partir de 1.000.000,00 Bs" },
 ];
 
 export const annualInvestmentOptions = [
-  { value: "lessThan1000", label: "Menos de 1.000 Dólares" },
-  { value: "plusThan1001", label: "A partir de 1.001 Dólares" },
+  { value: "lessThan1000", label: "Menos de 1.000 Bs" },
+  { value: "plusThan1001", label: "A partir de 1.001 Bs" },
 ];
 
 export const fundsDestinationOptions: FormOption[] = [

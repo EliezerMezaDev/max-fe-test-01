@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { bankingInstituteOptions, getLabel } from "~/assets/data/formSources";
-
-import { formatAmount } from "~/lib/utils";
+import {
+  monthlyIncomeOptions,
+  economicActivityOptions,
+  getLabel,
+} from "~/assets/data/formSources";
 
 const { source } = defineProps<{
   source: MXMZ.FinancialInformation;
@@ -39,7 +41,9 @@ const { source } = defineProps<{
       <tr class="spreadsheet__item">
         <td class="spreadsheet__form-item">
           Ramo de la empresa:
-          <div class="content">{{ source.companyBranch }}</div>
+          <div class="content">
+            {{ getLabel(source.companyBranch, economicActivityOptions) }}
+          </div>
         </td>
       </tr>
 
@@ -52,9 +56,9 @@ const { source } = defineProps<{
 
       <tr class="spreadsheet__item">
         <td class="spreadsheet__form-item">
-          Remuneración:
+          Remuneración mensual:
           <div class="content">
-            {{ formatAmount(source.companyRemuneration) }}
+            {{ getLabel(source.companyRemuneration, monthlyIncomeOptions) }}
           </div>
         </td>
       </tr>
@@ -65,7 +69,7 @@ const { source } = defineProps<{
           <div class="content">{{ source.companyAddress }}</div>
         </td>
       </tr>
-      
+
       <tr class="spreadsheet__item">
         <td class="spreadsheet__form-item">
           Teléfono:
@@ -106,7 +110,9 @@ const { source } = defineProps<{
       <tr class="spreadsheet__item">
         <td class="spreadsheet__form-item">
           Ingresos mensuales:
-          <div class="content">{{ formatAmount(source.businessIncome) }}</div>
+          <div class="content">
+            {{ getLabel(source.businessIncome, monthlyIncomeOptions) }}
+          </div>
         </td>
       </tr>
     </tbody>
@@ -138,7 +144,7 @@ const { source } = defineProps<{
         <td class="spreadsheet__form-item">
           Ingresos mensuales:
           <div class="content">
-            {{ formatAmount(source.otherIncomeAmount) }}
+            {{ getLabel(source.otherIncomeAmount, monthlyIncomeOptions) }}
           </div>
         </td>
       </tr>

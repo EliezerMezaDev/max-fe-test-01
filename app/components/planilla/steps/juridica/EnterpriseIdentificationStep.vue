@@ -86,7 +86,7 @@ const { handleSubmit, errors, defineField } = useForm({
       wizard.state.value.formData.enterpriseIdentification?.officesNumber || "",
     countryLargestPresence:
       wizard.state.value.formData.enterpriseIdentification
-        ?.countryLargestPresence || "",
+        ?.countryLargestPresence || "VENEZUELA",
     employeesNumber:
       wizard.state.value.formData.enterpriseIdentification?.employeesNumber ||
       "",

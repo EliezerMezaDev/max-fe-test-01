@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  getLabel,
-  occupationsOptions,
-  countriesOptions,
-  nationalityOptions,
-} from "~/assets/data/formSources";
+import { getLabel, occupationsOptions } from "~/assets/data/formSources";
 
 import { MAXIMIZA_LOGO } from "~/assets/data/maximiza-logo";
 
@@ -22,8 +17,12 @@ const personal = computed(() => props.data.personalData || {});
 const enterprise = computed(
   () => props.data.enterpriseIdentification || ({} as any),
 );
+const financial = computed(
+  () => props.data.financialInformation || ({} as any),
+);
 const institution = computed(() => props.data.institutionData || ({} as any));
 
+// Lógica de fecha común para todos
 const dateParts = computed(() => {
   const dateStr = institution.value.productionDate;
   if (!dateStr) return { day: "__", month: "_________", year: "__" };
@@ -51,31 +50,64 @@ const dateParts = computed(() => {
   return { day, month, year };
 });
 
-const textData = computed(() => {
+// Generamos una lista de documentos a renderizar
+const documentsList = computed(() => {
   if (isNatural.value) {
-    return {
-      name: `${personal.value.firstName} ${personal.value.lastName}`,
-      address: personal.value.address,
-      id: personal.value.identification,
-      profession:
-        getLabel(personal.value.profession, occupationsOptions) ||
-        "________________",
-    };
+    // CASO NATURAL: Un solo documento con datos personales
+    return [
+      {
+        type: "NATURAL",
+        name: `${personal.value.firstName} ${personal.value.lastName}`,
+        address: personal.value.address,
+        id: personal.value.identification,
+        profession:
+          getLabel(personal.value.profession, occupationsOptions) ||
+          "________________",
+      },
+    ];
   } else {
-    return {
-      repName: personal.value.legalRepresentativeFullname || "________________",
-      repAddress: personal.value.address || "________________",
-      repId:
-        personal.value.legalRepresentativeIdentification || "________________",
+    // CASO JURIDICA: Un documento por cada Stockholder
+    const legalRepresentatives = financial.value.legalRepresentatives || [];
+
+    console.log(legalRepresentatives);
+
+    // Si no hay accionistas, devolvemos un array vacío o uno con datos vacíos para no romper el layout
+    if (legalRepresentatives.length === 0) {
+      return [
+        {
+          type: "JURIDICA",
+          repName: "________________",
+          repAddress: "________________",
+          repId: "________________",
+          companyName: enterprise.value.socialReason || "________________",
+        },
+      ];
+    }
+
+    // Mapeamos cada accionista a una estructura de página
+    return legalRepresentatives.map((holder: any) => ({
+      type: "JURIDICA",
+      repName: holder.name || "________________",
+      // Usamos la dirección del accionista, si no tiene, línea vacía
+      repAddress: holder.address || "________________",
+      // Usamos el DNI compuesto (V123456) del accionista
+      repId: holder.dni || "________________",
       companyName: enterprise.value.socialReason || "________________",
-    };
+    }));
   }
 });
+
+console.log(documentsList.value)
 </script>
 
 <template>
   <div class="spreadsheet" style="padding: 1rem">
-    <div class="page-break-container">
+    <!-- Iteramos sobre la lista de documentos generada -->
+    <div
+      v-for="(doc, index) in documentsList"
+      :key="index"
+      class="page-break-container"
+    >
       <header class="spreadsheet__header flex justify-end">
         <img class="spreadsheet__image" :src="MaximizaLogo" alt="logo" />
       </header>
@@ -84,9 +116,9 @@ const textData = computed(() => {
         <h2 class="text-center font-bold uppercase text-lg mb-12">
           DECLARACIÓN JURADA DE ORIGEN Y DESTINO DE LOS FONDOS
           <br />
-          <span class="text-base font-normal"
-            >({{ isNatural ? "Persona Natural" : "Persona Jurídica" }})</span
-          >
+          <span class="text-base font-normal">
+            ({{ isNatural ? "Persona Natural" : "Persona Jurídica" }})
+          </span>
         </h2>
 
         <div class="mb-8 font-bold leading-relaxed">
@@ -95,26 +127,27 @@ const textData = computed(() => {
           <p>Presente.</p>
         </div>
 
+        <!-- CONTENIDO PERSONA NATURAL -->
         <div
-          v-if="isNatural"
+          v-if="doc.type === 'NATURAL'"
           class="text-justify leading-loose text-sm space-y-6"
         >
           <p>
             Quien suscribe
             <span class="font-bold border-b border-black px-1">{{
-              textData.name
+              doc.name
             }}</span
             >, venezolano(a), mayor de edad, domiciliado(a) en
             <span class="font-bold border-b border-black px-1">{{
-              textData.address
+              doc.address
             }}</span>
             y titular de la Cédula de Identidad N°
             <span class="font-bold border-b border-black px-1">{{
-              textData.id
+              doc.id
             }}</span
             >, Profesión
             <span class="font-bold border-b border-black px-1">{{
-              textData.profession
+              doc.profession
             }}</span
             >, por la presente declaro bajo fe de juramento que el origen de los
             fondos, son de mi peculio y de procedencia de actividades lícitas.
@@ -130,24 +163,25 @@ const textData = computed(() => {
           </p>
         </div>
 
+        <!-- CONTENIDO PERSONA JURIDICA (Iterado por accionista) -->
         <div v-else class="text-justify leading-loose text-sm space-y-6">
           <p>
             Quien suscribe
             <span class="font-bold border-b border-black px-1">{{
-              textData.repName
+              doc.repName
             }}</span
             >, venezolano(a), mayor de edad, domiciliado(a) en
             <span class="font-bold border-b border-black px-1">{{
-              textData.repAddress
+              doc.repAddress
             }}</span>
             y titular de la Cédula de Identidad N°
             <span class="font-bold border-b border-black px-1">{{
-              textData.repId
+              doc.repId
             }}</span
-            >, actuando en mi carácter de representante legal de la sociedad
-            mercantil:
+            >, actuando en mi carácter de accionista / representante de la
+            sociedad mercantil:
             <span class="font-bold border-b border-black px-1">{{
-              textData.companyName
+              doc.companyName
             }}</span
             >, por la presente declaro bajo fe de juramento que el origen de los
             fondos de mi representada, son de su peculio y de procedencia de
@@ -206,6 +240,14 @@ const textData = computed(() => {
 <style lang="scss">
 .page-break-container {
   page-break-after: always;
+  /* Asegura que cada contenedor ocupe al menos una página completa visualmente */
+  min-height: 100vh;
+  padding-bottom: 2rem;
+}
+
+/* Evita salto de página después del último elemento para no generar una hoja en blanco extra */
+.page-break-container:last-child {
+  page-break-after: auto;
 }
 
 .spreadsheet {
@@ -232,8 +274,14 @@ const textData = computed(() => {
 }
 
 @media print {
-  .page-break {
-    page-break-before: always;
+  .page-break-container {
+    page-break-after: always;
+    min-height: 0; /* Reset height for print */
+    padding-bottom: 0;
+  }
+
+  .page-break-container:last-child {
+    page-break-after: auto;
   }
 
   .spreadsheet {

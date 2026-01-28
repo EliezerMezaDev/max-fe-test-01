@@ -22,6 +22,20 @@ const enterprise = computed(
   () => props.data.enterpriseIdentification || ({} as any),
 );
 
+const financial = computed(
+  () => props.data.financialInformation || ({} as any),
+);
+
+const joinValues = (val1?: string, val2?: string) => {
+  const v1 = val1?.trim();
+  const v2 = val2?.trim();
+
+  if (v1 && v2 && v1 !== v2) return `${v1}, ${v2}`;
+  if (v1) return v1;
+  if (v2) return v2;
+  return "________________";
+};
+
 const textData = computed(() => {
   if (isNatural.value) {
     return {
@@ -31,17 +45,22 @@ const textData = computed(() => {
       id: personal.value.identification,
     };
   } else {
+    const stockholder = financial.value.stockholders?.[0];
+    const legalRep = financial.value.legalRepresentatives?.[0];
+
+    const stockholderNat = stockholder?.nationality;
+    const legalRepNat = legalRep?.nationality;
+
     return {
-      repName: personal.value.legalRepresentativeFullname || "________________",
-      repNationality:
-        getLabel(
-          personal.value.legalRepresentativeBirthPlace,
-          countriesOptions,
-        ) || "________________",
-      repAddress: personal.value.address || "________________",
-      repId:
-        personal.value.legalRepresentativeIdentification || "________________",
-      companyRole: "REPRESENTANTE LEGAL",
+      repName: joinValues(stockholder?.name, legalRep?.name),
+
+      repNationality: joinValues(stockholderNat, legalRepNat),
+
+      repAddress: joinValues(stockholder?.address, legalRep?.address),
+
+      repId: joinValues(stockholder?.dni, legalRep?.dni),
+
+      companyRole: "ACCIONISTA Y REPRESENTANTE LEGAL",
       companyName: enterprise.value.socialReason || "________________",
       companyRif: `${enterprise.value.taxType || ""}-${enterprise.value.taxInformationRegistration || ""}`,
     };

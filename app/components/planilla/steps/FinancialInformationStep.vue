@@ -8,6 +8,7 @@ import {
   conditionOptions,
   isPepOptions,
   countriesOptions,
+  nationalityOptions,
   docTypeOptionsAlt,
   monthlyIncomeOptions,
   economicActivityOptions,
@@ -70,6 +71,11 @@ const schema = yup.object({
   businessRifNumber: yup.string().when("incomeSource", {
     is: (val: string[]) => val?.includes("propio"),
     then: (s) => s.required("Requerido").matches(/^[0-9]+$/, "Solo números"),
+  }),
+
+  businessIncome: yup.string().when("incomeSource", {
+    is: (val: string[]) => val?.includes("propio"),
+    then: (s) => s.required("Requerido"),
   }),
 
   otherIncomeSource: yup.string().when("incomeSource", {
@@ -137,6 +143,8 @@ const schema = yup.object({
               .required("Requerido")
               .matches(/^[0-9]+$/, "Solo números"),
             percentage: yup.string().required("Requerido"),
+            nationality: yup.string().required("Requerido"),
+            address: yup.string().required("Requerido"),
             cargo: yup.string().required("Requerido"),
             esPep: yup.string().required("Requerido"),
             relatedWithPep: yup.string().required("Requerido"),
@@ -155,6 +163,8 @@ const schema = yup.object({
               .required("Requerido")
               .matches(/^[0-9]+$/, "Solo números"),
             cargo: yup.string().required("Requerido"),
+            nationality: yup.string().required("Requerido"),
+            address: yup.string().required("Requerido"),
             condition: yup.string().required("Requerido"),
             esPep: yup.string().required("Requerido"),
             relatedWithPep: yup.string().required("Requerido"),
@@ -235,10 +245,14 @@ const defaultStockholder = {
   esPep: "NO",
   relatedWithPep: "NO",
 
+  nationality: "VENEZOLANO",
+  address: "",
+
   entityName: "",
   position: "",
   country: "",
   relatedIdentification: "",
+  dni: "",
 };
 
 const defaultLegalRep = {
@@ -249,11 +263,22 @@ const defaultLegalRep = {
   condition: "",
   esPep: "NO",
   relatedWithPep: "NO",
+
+  nationality: "VENEZOLANO",
+  address: "",
+
+  dni: "",
 };
 
 const defaultProvider = { name: "", location: "" };
 const defaultClient = { name: "", location: "" };
-const defaultCompany = { name: "", activity: "", rifType: "J", rifNumber: "" };
+const defaultCompany = {
+  name: "",
+  activity: "",
+  rifType: "J",
+  rifNumber: "",
+  rif: "",
+};
 const defaultBank = {
   institution: "",
   accountNumber: "",
@@ -421,11 +446,9 @@ const validate = handleSubmit((values) => {
   const payload = { ...values };
 
   if (type === "natural") {
-    // Always initialize these fields
     payload.companyRif = "";
     payload.businessRif = "";
 
-    // Only set companyRif if dependencia is selected and both fields are filled
     if (
       values.incomeSource?.includes("dependencia") &&
       values.companyRifType &&
@@ -434,7 +457,6 @@ const validate = handleSubmit((values) => {
       payload.companyRif = `${values.companyRifType}${values.companyRifNumber}`;
     }
 
-    // Only set businessRif if propio is selected and both fields are filled
     if (
       values.incomeSource?.includes("propio") &&
       values.businessRifType &&
@@ -443,7 +465,6 @@ const validate = handleSubmit((values) => {
       payload.businessRif = `${values.businessRifType}${values.businessRifNumber}`;
     }
 
-    // Remove the split fields from payload
     delete payload.companyRifType;
     delete payload.companyRifNumber;
     delete payload.businessRifType;
@@ -590,13 +611,13 @@ defineExpose({ validate });
               required
             />
 
-            <FormBaseInput
+            <FormBaseSelect
+              label="Remuneración mensual"
               name="companyRemuneration"
-              label="Remuneración mensual (en Bolivares)"
-              type="number"
               v-model="companyRemuneration"
-              :error-message="errors.companyRemuneration"
-              required
+              :options="monthlyIncomeOptions"
+              :error-message="errors.companyRemuneration ? ' ' : ''"
+              :comment="'INCOMES'"
             />
 
             <FormBaseInput
@@ -664,7 +685,7 @@ defineExpose({ validate });
             />
 
             <FormBaseSelect
-              label="Ingresos mensuales (en Dólares)"
+              label="Ingresos mensuales"
               name="businessIncome"
               v-model="businessIncome"
               :options="monthlyIncomeOptions"
@@ -690,7 +711,7 @@ defineExpose({ validate });
             />
 
             <FormBaseSelect
-              label="Ingresos mensuales (en Bolivares)"
+              label="Ingresos mensuales (en Bs)"
               name="otherIncomeAmount"
               v-model="otherIncomeAmount"
               :options="monthlyIncomeOptions"
@@ -707,21 +728,21 @@ defineExpose({ validate });
         <FormBaseLayout class="grid-cols-1 md:grid-cols-3">
           <FormBaseInput
             name="monthlyIncome"
-            label="Ingresos (en Bolivares)"
+            label="Ingresos (en Bs)"
             v-model="monthlyIncome"
             type="number"
             :error-message="errors.monthlyIncome"
           />
           <FormBaseInput
             name="monthlySales"
-            label="Ventas (en Bolivares)"
+            label="Ventas (en Bs)"
             v-model="monthlySales"
             type="number"
             :error-message="errors.monthlySales"
           />
           <FormBaseInput
             name="monthlyExpenses"
-            label="Egresos (en Bolivares)"
+            label="Egresos (en Bs)"
             v-model="monthlyExpenses"
             type="number"
             :error-message="errors.monthlyExpenses"
@@ -747,7 +768,7 @@ defineExpose({ validate });
 
           <FormBaseInput
             name="islrAmount"
-            label="Monto (en Bolivares)"
+            label="Monto (en Bs)"
             v-model="islrAmount"
             :error-message="errors.islrAmount"
           />
@@ -764,7 +785,6 @@ defineExpose({ validate });
             class="p-4 border-l border-b border-maximiza-gris5/90 bg-maximiza-gris5/10 mb-4"
           >
             <FormBaseLayout>
-              <!-- DATOS BÁSICOS -->
               <FormBaseInput
                 :name="`stockholders[${i}].name`"
                 label="Nombre completo"
@@ -786,7 +806,6 @@ defineExpose({ validate });
                       v-model="field.value.dniType"
                       :options="docTypeOptions"
                       :error-message="errors[`stockholders[${i}].dniType`]"
-                      :comment="'RIF_REQUIRED'"
                       required
                     />
                   </div>
@@ -796,6 +815,7 @@ defineExpose({ validate });
                       v-model="field.value.dniNumber"
                       type="tel"
                       :error-message="errors[`stockholders[${i}].dniNumber`]"
+                      :comment="'RIF_REQUIRED'"
                       required
                     />
                   </div>
@@ -814,6 +834,22 @@ defineExpose({ validate });
                 label="Cargo"
                 v-model="field.value.cargo"
                 :error-message="errors[`stockholders[${i}].cargo`]"
+              />
+
+              <FormBaseSelect
+                :name="`stockholders[${i}].nationality`"
+                v-model="field.value.nationality"
+                label="Nacionalidad"
+                :options="nationalityOptions"
+                :error-message="errors[`stockholders[${i}].nationality`]"
+                required
+              />
+
+              <FormBaseInput
+                :name="`stockholders[${i}].address`"
+                label="Direccion"
+                v-model="field.value.address"
+                :error-message="errors[`stockholders[${i}].address`]"
               />
 
               <!-- SECCIÓN PEP -->
@@ -898,6 +934,8 @@ defineExpose({ validate });
               dniNumber: '',
               percentage: '',
               cargo: '',
+              nationality: '',
+              address: '',
               esPep: 'NO',
               relatedWithPep: 'NO',
               entityName: '',
@@ -966,12 +1004,31 @@ defineExpose({ validate });
                 v-model="field.value.cargo"
                 :error-message="errors[`legalRepresentatives[${i}].cargo`]"
               />
+
               <FormBaseSelect
                 :name="`legalRepresentatives[${i}].condition`"
                 label="Condición"
                 v-model="field.value.condition"
                 :options="conditionOptions"
                 :error-message="errors[`legalRepresentatives[${i}].condition`]"
+              />
+
+              <FormBaseSelect
+                :name="`legalRepresentatives[${i}].nationality`"
+                v-model="field.value.nationality"
+                label="Nacionalidad"
+                :options="nationalityOptions"
+                :error-message="
+                  errors[`legalRepresentatives[${i}].nationality`]
+                "
+                required
+              />
+
+              <FormBaseInput
+                :name="`legalRepresentatives[${i}].address`"
+                label="Direccion"
+                v-model="field.value.address"
+                :error-message="errors[`legalRepresentatives[${i}].address`]"
               />
 
               <template #button-bar>
@@ -996,10 +1053,13 @@ defineExpose({ validate });
               name: '',
               dniType: 'V',
               dniNumber: '',
+              nationality: '',
+              address: '',
+
               cargo: '',
               condition: '',
-              esPep: '',
-              relatedWithPep: '',
+              esPep: 'NO',
+              relatedWithPep: 'NO',
             })
           "
           class="button-primary --medium mt-4"
@@ -1147,7 +1207,7 @@ defineExpose({ validate });
                       :error-message="
                         errors[`relatedCompanies[${i}].rifNumber`]
                       "
-                      :comment="'RIF'"
+                      :comment="'RIF_REQUIRED'"
                       type="tel"
                     />
                   </div>
@@ -1223,7 +1283,7 @@ defineExpose({ validate });
             <FormBaseInput
               :name="`bankReferences[${i}].averageAmount`"
               type="number"
-              label="Cifras promedio mensuales (en Bolivares)"
+              label="Cifras promedio mensuales (en Bs)"
               v-model="field.value.averageAmount"
               :error-message="errors[`bankReferences[${i}].averageAmount`]"
               required

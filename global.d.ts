@@ -108,6 +108,8 @@ declare namespace MXMZ {
 
     esPep: string;
     relatedWithPep: string;
+    nationality: string;
+    address: string;
 
     entityName: string;
     position: string;
@@ -120,6 +122,8 @@ declare namespace MXMZ {
     dniType: string;
     dniNumber: string;
     cargo: string;
+    nationality: string;
+    address: string;
     condition: string;
     esPep: string;
     relatedWithPep: string;

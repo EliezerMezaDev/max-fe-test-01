@@ -15,6 +15,7 @@ interface Props {
   placeholder?: string;
   errorMessage?: string;
   disabled?: boolean;
+  comment?: string;
   required?: boolean;
 }
 
@@ -34,6 +35,10 @@ const normalizedOptions = computed(() => {
     return { value: opt, label: opt } as Option;
   });
 });
+
+const COMMENT_TYPES: Record<string, string> = {
+  INCOMES: "El monto indicado debe coincidir con su constancia de ingreso",
+};
 
 const handleChange = (event: Event) => {
   const target = event.target as HTMLSelectElement;
@@ -84,6 +89,13 @@ const handleChange = (event: Event) => {
         <font-awesome-icon :icon="['fas', 'caret-down']" />
       </div>
     </div>
+
+    <p
+      v-if="comment"
+      class="text-maximiza-gris3 text-sm mt-2 bg-gray-50 px-2 border-l-2 border-maximiza-verde1"
+    >
+      {{ COMMENT_TYPES[comment] || comment }}
+    </p>
 
     <FormError :error="errorMessage" />
   </div>

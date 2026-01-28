@@ -9,6 +9,10 @@ import {
   nationalityOptions,
   fundsSourceOptions,
   fundsDestinationOptions,
+  annualInvestmentOptions,
+  knowledgeOptions,
+  experienceOptions,
+  investmentLevelOptions,
   currencyOptions,
   productNamesOptions,
   virtualCurrencyOptions,
@@ -50,6 +54,11 @@ const financial = computed<MXMZ.FinancialInformation>(
 const product = computed<MXMZ.ProductInformation>(
   () => props.data.productInformation || ({} as MXMZ.ProductInformation),
 );
+
+const investor = computed<MXMZ.InvestorProfile>(
+  () => props.data.investorProfile || ({} as MXMZ.InvestorProfile),
+);
+
 const institutionData = computed<MXMZ.InstitutionData>(
   () => props.data.institutionData || ({} as MXMZ.InstitutionData),
 );
@@ -783,7 +792,7 @@ onMounted(() => {
             <div class="spreadsheet__form-item">
               <div>Monto del producto adquirido:</div>
               <div class="content">
-                {{ formatAmount(product.productAmouTempt) }}
+                {{ formatAmount(product.productAmount) }}
               </div>
             </div>
           </div>
@@ -806,32 +815,33 @@ onMounted(() => {
               </div>
             </div>
           </div>
-        </div>
-        <div class="grid grid-cols-2">
+
           <div class="spreadsheet__item">
             <div class="spreadsheet__form-item">
-              <div>Enviar o recibir fondos del exterior:</div>
-              <div class="content">
-                {{ product.sendOrReceiveFundsFromAbroad }}
-              </div>
+              <div>Motivos por los cuales solicita los servicios:</div>
+              <div class="content">{{ product.motives }}</div>
             </div>
           </div>
-          <div class="grid grid-cols-2">
-            <div class="spreadsheet__item">
-              <div class="spreadsheet__form-item">
-                <div>País origen:</div>
-                <div class="content">{{ originCountryLabel }}</div>
-              </div>
+
+          <div class="spreadsheet__item">
+            <div class="spreadsheet__form-item">
+              <div>Origen de los fondos:</div>
+              <div class="content text-[10px]">{{ fundsSourceLabel }}</div>
             </div>
-            <div class="spreadsheet__item">
-              <div class="spreadsheet__form-item">
-                <div>País destino:</div>
-                <div class="content">{{ destinationCountryLabel }}</div>
-              </div>
+          </div>
+          <div class="spreadsheet__item">
+            <div class="spreadsheet__form-item">
+              <div>Destino de los fondos:</div>
+              <div class="content text-[10px]">{{ fundsDestinationLabel }}</div>
             </div>
           </div>
         </div>
-        <div class="grid grid-cols-3">
+
+        <div class="spreadsheet__item font-bold bg-maximiza-gris5 text-[10px]">
+          Número de transacciones por transferencia
+        </div>
+
+        <div class="grid grid-cols-2">
           <div class="spreadsheet__item">
             <div class="spreadsheet__form-item">
               <div>Compra:</div>
@@ -844,6 +854,40 @@ onMounted(() => {
               <div class="content">Temp</div>
             </div>
           </div>
+        </div>
+
+        <div
+          v-if="product.sendOrReceiveFundsFromAbroad === 'SI'"
+          class="spreadsheet__item font-bold bg-maximiza-gris5 text-[10px]"
+        >
+          Enviar o recibir fondos del exterior
+        </div>
+
+        <div
+          v-if="product.sendOrReceiveFundsFromAbroad === 'SI'"
+          class="grid grid-cols-4"
+        >
+          <div class="spreadsheet__item">
+            <div class="spreadsheet__form-item">
+              <div>Enviar o recibir fondos del exterior:</div>
+              <div class="content">
+                {{ product.sendOrReceiveFundsFromAbroad }}
+              </div>
+            </div>
+          </div>
+          <div class="spreadsheet__item">
+            <div class="spreadsheet__form-item">
+              <div>País origen:</div>
+              <div class="content">{{ originCountryLabel }}</div>
+            </div>
+          </div>
+          <div class="spreadsheet__item">
+            <div class="spreadsheet__form-item">
+              <div>País destino:</div>
+              <div class="content">{{ destinationCountryLabel }}</div>
+            </div>
+          </div>
+
           <div class="spreadsheet__item">
             <div class="spreadsheet__form-item">
               <div>Uso moneda virtual:</div>
@@ -851,23 +895,63 @@ onMounted(() => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="spreadsheet__section">
+        <h5 class="spreadsheet__title">PERFIL DE INVERSIONISTA</h5>
+
         <div class="grid grid-cols-3">
           <div class="spreadsheet__item">
             <div class="spreadsheet__form-item">
-              <div>Motivos por los cuales solicita los servicios:</div>
-              <div class="content">{{ product.motives }}</div>
+              <div>Conocimiento como inversionista:</div>
+              <div class="content">
+                {{ getLabel(investor.knowledge, knowledgeOptions) }}
+              </div>
             </div>
           </div>
           <div class="spreadsheet__item">
             <div class="spreadsheet__form-item">
-              <div>Origen de los fondos:</div>
-              <div class="content text-[10px]">{{ fundsSourceLabel }}</div>
+              <div>Experiencia como inversionista:</div>
+              <div class="content">
+                {{ getLabel(investor.experience, experienceOptions) }}
+              </div>
             </div>
           </div>
           <div class="spreadsheet__item">
             <div class="spreadsheet__form-item">
-              <div>Destino de los fondos:</div>
-              <div class="content text-[10px]">{{ fundsDestinationLabel }}</div>
+              <div>Nivel de inversiones en operaciones bursátiles:</div>
+              <div class="content">
+                {{ getLabel(investor.inversionLevel, investmentLevelOptions) }}
+              </div>
+            </div>
+          </div>
+
+          <div class="spreadsheet__item">
+            <div class="spreadsheet__form-item">
+              <div>Inversiones anuales:</div>
+              <div class="content">
+                {{
+                  getLabel(investor.annualInversion, annualInvestmentOptions)
+                }}
+              </div>
+            </div>
+          </div>
+
+          <div class="spreadsheet__item">
+            <div class="spreadsheet__form-item">
+              <div>Total de activos líquidos:</div>
+              <div class="content">
+                {{ formatAmount(investor.totalLiquidAssets) }}
+              </div>
+            </div>
+          </div>
+
+          <div class="spreadsheet__item">
+            <div class="spreadsheet__form-item">
+              <div>Patrimonio total:</div>
+              <div class="content">
+                {{ formatAmount(investor.totalAssets) }}
+              </div>
             </div>
           </div>
         </div>

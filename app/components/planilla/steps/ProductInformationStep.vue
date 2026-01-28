@@ -140,7 +140,7 @@ defineExpose({
 
         <FormBaseInput
           name="productAmount"
-          label="Monto del producto adquirido (en Bolivares)"
+          label="Monto del producto adquirido (en Bs)"
           type="number"
           v-model="productAmount"
           :error-message="errors.productAmount"
@@ -164,7 +164,7 @@ defineExpose({
       <FormBaseLayout :style="'grid-cols-1 md:grid-cols-3'">
         <FormBaseInput
           name="monthlyAmount"
-          label="Monto promedio mensual (en Bolivares)"
+          label="Monto promedio mensual (en Bs)"
           type="number"
           v-model="monthlyAmount"
           :error-message="errors.monthlyAmount"
